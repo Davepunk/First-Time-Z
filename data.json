@@ -41,17 +41,6 @@
       "desc": "lasset die hüften dehnen"
     },
     {
-      "id": "event-example-5",
-      "type": "event",
-      "custom": true,
-      "createdBy": "david",
-      "name": "Brauereiführung mit Verkostung",
-      "date": "2026-10-10",
-      "loc": "Karlsberg Brauerei, Homburg",
-      "preis": "",
-      "desc": "Blick hinter die Kulissen, zum Schluss eine Kostprobe."
-    },
-    {
       "id": "event-1790280947534",
       "type": "event",
       "custom": true,
