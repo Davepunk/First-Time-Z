@@ -1,0 +1,33 @@
+{
+  "items": [
+    { "id":"card-example-1", "type":"option", "custom":true, "createdBy":"david", "name":"Bouldern ohne Vorkenntnisse", "loc":"Boulderwerk, Saarbrücken", "preis":"ab 15 € Tageskarte", "desc":"Einfach Sportsachen anziehen und an die Wand – ganz ohne Seil, in Absprunghöhe." },
+    { "id":"card-example-2", "type":"option", "custom":true, "createdBy":"david", "name":"Töpferkurs im Römischen Landgut", "loc":"Archäologiepark Villa Borg, Perl-Borg", "preis":"49 € zzgl. Eintritt", "desc":"Zwei Stunden an der Drehscheibe mit einer Meisterkeramikerin, mitten im römischen Gutshof." },
+    { "id":"card-example-3", "type":"option", "custom":true, "createdBy":"david", "name":"Escape Room", "loc":"TeamEscape, Saarbrücken", "preis":"ca. 25 €/Person", "desc":"60 Minuten, verschiedene Räume, Rätsel unter Zeitdruck lösen." },
+    { "id":"card-example-4", "type":"option", "custom":true, "createdBy":"david", "name":"Axtwerfen wie ein Wikinger", "loc":"Kartpalast, Saarbrücken", "preis":"auf Anfrage", "desc":"Äxte ins massive Holz werfen, Kneipenfeeling inklusive." },
+    { "id":"card-example-5", "type":"option", "custom":true, "createdBy":"david", "name":"Alpaka-Wanderung", "loc":"Saar Alpaka Farm, Saarbrücken", "preis":"auf Anfrage", "desc":"Erst füttern und kennenlernen, dann gemeinsam mit den Tieren durchs Naherholungsgebiet spazieren." },
+    { "id":"card-example-6", "type":"option", "custom":true, "createdBy":"malik", "name":"Hochseilgarten", "loc":"Kletterwald Fischbachtal, Saarland", "preis":"ab 20 €", "desc":"Balancieren, klettern und über Hängebrücken zwischen den Bäumen – verschiedene Parcours je nach Mut." },
+    { "id":"card-example-7", "type":"option", "custom":true, "createdBy":"marcel", "name":"Kanutour auf der Saar", "loc":"Kanuverleih an der Saarschleife, Mettlach", "preis":"ab 25 € pro Kanu", "desc":"Gemütlich die Saar runterpaddeln, Verleih und Rückholservice inklusive." },
+
+    { "id":"event-example-1", "type":"event", "custom":true, "createdBy":"david", "name":"Pub-Quiz bei Murphy's", "date":"2026-09-28", "loc":"Old Murphy's Irish Pub, Saarbrücken", "preis":"kostenlos", "desc":"Team-Quizrunden, Plätze vorher reservieren." },
+    { "id":"event-example-2", "type":"event", "custom":true, "createdBy":"david", "name":"Pokerturnier in der Spielbank", "date":"2026-09-29", "loc":"Spielbank Saarbrücken", "preis":"Buy-in ab ca. 40 €", "desc":"Ab 18 Jahren, Ausweis mitbringen." },
+    { "id":"event-example-3", "type":"event", "custom":true, "createdBy":"david", "name":"Offenes Schachturnier", "date":"2026-10-03", "loc":"Völklingen", "preis":"", "desc":"Jeder darf mitspielen, auch Einsteiger." },
+    { "id":"event-example-4", "type":"event", "custom":true, "createdBy":"david", "name":"Karten-Draft-Abend", "date":"2026-10-06", "loc":"Dragonlord Games, Saarbrücken", "preis":"", "desc":"Magic, Pokémon und Lorcana." },
+    { "id":"event-example-5", "type":"event", "custom":true, "createdBy":"david", "name":"Brauereiführung mit Verkostung", "date":"2026-10-10", "loc":"Karlsberg Brauerei, Homburg", "preis":"", "desc":"Blick hinter die Kulissen, zum Schluss eine Kostprobe." }
+  ],
+  "ratings": {},
+  "notes": {},
+  "auth": {
+    "david":  { "salt": "5bac2ad8ab3c6661", "hash": "2277722989b6754c0a149d0023bec62123180117b690cf54c3aa6ccf415e9f6f" },
+    "malik":  { "salt": "575b2d62742a7642", "hash": "2d46faf1d280549847405595d9ccebbe08171544a6f6c70df1498cc3d58040a2" },
+    "marcel": { "salt": "79039cf29876a11c", "hash": "e552e52b86d18b35194a40e33a25abd20f5001110597631e7f696ff909171ad3" }
+  },
+  "tried": {},
+  "draw": {
+    "status": "idle",
+    "excludedWeeks": [],
+    "confirmedResult": [],
+    "resultItemId": null,
+    "drawnBy": null
+  },
+  "history": []
+}

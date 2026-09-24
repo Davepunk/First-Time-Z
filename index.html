@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First Time Z</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap">
+<style>
+  :root{
+    --ink:#161a2e;
+    --ink-2:#1e2344;
+    --ink-3:#2a3060;
+    --paper:#f5ecd9;
+    --muted:#a6a3c4;
+    --gold:#f2b53c;
+    --gold-soft:rgba(242,181,60,.16);
+    --red:#e75b46;
+    --red-soft:rgba(231,91,70,.18);
+    --line:rgba(245,236,217,.14);
+    --shadow:rgba(6,8,20,.45);
+    --col-david:#f2b53c;
+    --col-david-soft:rgba(242,181,60,.16);
+    --col-malik:#7bc47f;
+    --col-malik-soft:rgba(123,196,127,.16);
+    --col-marcel:#b28ae0;
+    --col-marcel-soft:rgba(178,138,224,.16);
+    color-scheme: dark;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ background:var(--ink); }
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Work Sans', -apple-system, 'Segoe UI', sans-serif;
+    padding-inline:16px;
+    padding-block:28px 64px;
+  }
+  h1,h2,h3{ margin:0; text-wrap:balance; }
+  a{ color:var(--gold); }
+  p{ margin:0; }
+  .wrap{ max-width:920px; margin:0 auto; display:flex; flex-direction:column; gap:24px; }
+  #appWrap{ display:flex; flex-direction:column; gap:24px; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    background:var(--ink-2);
+    border-radius:20px;
+    padding:32px 24px;
+    text-align:center;
+    border:2px dashed var(--gold);
+    outline:2px solid var(--ink);
+    outline-offset:-8px;
+    display:flex; flex-direction:column; gap:12px; align-items:center;
+  }
+  .hero h1{
+    font-family:'Anton', Impact, 'Arial Narrow Bold', sans-serif;
+    font-weight:400;
+    font-size:clamp(2.4rem, 9vw, 3.6rem);
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    color:var(--paper);
+    line-height:.95;
+  }
+
+  /* ---------- User bar / gate ---------- */
+  .userbar{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:12px;
+    font-family:'Space Mono', monospace; font-size:12.5px; color:var(--muted);
+  }
+  .userbar b{ color:var(--paper); }
+  .userbar button{
+    background:none; border:none; color:var(--gold); font-family:inherit; font-size:inherit;
+    text-decoration:underline; cursor:pointer; padding:0;
+  }
+  .userbar .stat{
+    font-family:'Space Mono', monospace; font-size:12px; color:var(--paper);
+    background:var(--red-soft); border:1px solid var(--red); border-radius:999px; padding:4px 12px;
+  }
+  .userbar .sync{ display:flex; align-items:center; gap:6px; }
+  .userbar .sync button{ text-decoration:none; border:1px solid var(--line); border-radius:8px; padding:2px 7px; color:var(--muted); }
+  .gate{
+    position:fixed; inset:0; z-index:50;
+    background:rgba(10,12,26,.92);
+    display:flex; align-items:center; justify-content:center;
+    padding:20px;
+  }
+  .gate[hidden]{ display:none; }
+  .gate-card{
+    background:var(--ink-2); border:2px dashed var(--gold); border-radius:20px;
+    padding:32px 24px; max-width:360px; width:100%; text-align:center;
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .gate-card h2{ font-family:'Anton', Impact, sans-serif; font-weight:400; font-size:24px; color:var(--paper); }
+  .user-pick{ display:flex; flex-direction:column; gap:10px; }
+  .user-pick[hidden]{ display:none; }
+  .user-pick button{
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:16px;
+    padding:14px; border-radius:12px; border:1.5px solid var(--gold);
+    background:transparent; color:var(--paper); cursor:pointer;
+    transition:background .15s ease;
+  }
+  .user-pick button:hover, .user-pick button:focus-visible{ background:var(--gold-soft); outline:none; }
+  .user-pick button[data-user="david"]{ border-color:var(--col-david); color:var(--col-david); }
+  .user-pick button[data-user="malik"]{ border-color:var(--col-malik); color:var(--col-malik); }
+  .user-pick button[data-user="marcel"]{ border-color:var(--col-marcel); color:var(--col-marcel); }
+  .user-pick button[data-user="david"]:hover, .user-pick button[data-user="david"]:focus-visible{ background:var(--col-david-soft); }
+  .user-pick button[data-user="malik"]:hover, .user-pick button[data-user="malik"]:focus-visible{ background:var(--col-malik-soft); }
+  .user-pick button[data-user="marcel"]:hover, .user-pick button[data-user="marcel"]:focus-visible{ background:var(--col-marcel-soft); }
+  .gate-card form[hidden]{ display:none; }
+  .gate-card form{ display:flex; flex-direction:column; gap:12px; }
+  .gate-card label{ display:flex; flex-direction:column; gap:4px; font-size:12px; color:var(--muted); text-align:left; }
+  .gate-card input{
+    background:var(--ink); color:var(--paper); border:1px solid var(--line); border-radius:8px;
+    padding:9px 10px; font-family:'Work Sans', sans-serif; font-size:14px;
+  }
+  .login-error{ color:var(--red); font-size:12px; text-align:left; }
+  .login-error[hidden]{ display:none; }
+
+  .spin-btn{
+    font-family:'Anton', Impact, sans-serif;
+    font-weight:400;
+    font-size:17px;
+    letter-spacing:.03em;
+    color:var(--ink);
+    background:var(--red);
+    border:none;
+    border-radius:12px;
+    padding:13px 22px;
+    cursor:pointer;
+    box-shadow:0 6px 0 #a83c2c, 0 10px 18px var(--shadow);
+    transition:transform .08s ease, box-shadow .08s ease;
+    white-space:nowrap;
+  }
+  .spin-btn:active{ transform:translateY(4px); box-shadow:0 2px 0 #a83c2c, 0 4px 10px var(--shadow); }
+  .spin-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+  .spin-btn:disabled{ opacity:.7; cursor:default; }
+  .spin-btn[hidden]{ display:none; }
+
+  /* ---------- Rad / Ziehung ---------- */
+  .wheel-section{
+    background:var(--ink-2);
+    border-radius:16px;
+    padding:18px;
+    display:flex; flex-direction:column; align-items:center; gap:14px;
+    border:1px solid var(--line);
+  }
+  .week-filter{ display:flex; flex-wrap:wrap; gap:10px 16px; justify-content:center; }
+  .week-filter[hidden]{ display:none; }
+  .week-check{ display:flex; align-items:center; gap:6px; font-size:12.5px; color:var(--muted); cursor:pointer; user-select:none; }
+  .week-check input{ accent-color:var(--gold); width:15px; height:15px; }
+  .week-check.disabled{ opacity:.5; pointer-events:none; }
+
+  .wheel-stage{ position:relative; width:min(280px, 78vw); height:min(280px, 78vw); }
+  .wheel-pointer{
+    position:absolute; top:-6px; left:50%; transform:translateX(-50%);
+    width:0; height:0; border-left:14px solid transparent; border-right:14px solid transparent;
+    border-top:22px solid var(--gold); z-index:2;
+    filter:drop-shadow(0 2px 3px var(--shadow));
+  }
+  #wheelCanvas{
+    display:block; width:100%; height:100%; border-radius:50%;
+    border:4px solid var(--ink-3); box-shadow:0 6px 20px var(--shadow);
+    transition: transform 4.5s cubic-bezier(.12,.67,.14,1);
+    background:var(--ink);
+  }
+
+  .spin-status{ display:flex; gap:10px 16px; justify-content:center; flex-wrap:wrap; font-family:'Space Mono', monospace; font-size:13px; color:var(--muted); }
+  .spin-status .ok{ color:var(--gold); font-weight:700; }
+
+  .result-card{ display:none; width:100%; }
+  .result-card.show{ display:flex; }
+
+  .result-confirm{ display:flex; flex-direction:column; align-items:center; gap:10px; width:100%; }
+  .result-confirm[hidden]{ display:none; }
+
+  .history-list{ width:100%; display:flex; flex-direction:column; gap:6px; }
+  .history-list[hidden]{ display:none; }
+  .history-list .hist-row{ display:flex; justify-content:space-between; gap:10px; font-size:12.5px; color:var(--muted); border-bottom:1px dashed var(--line); padding-bottom:5px; }
+  .history-list .hist-row b{ color:var(--paper); font-weight:600; text-align:right; }
+
+  /* ---------- Tabs ---------- */
+  .tabs{ display:flex; gap:8px; }
+  .tab-btn{
+    flex:1;
+    font-family:'Anton', Impact, sans-serif; font-weight:400; font-size:13.5px; letter-spacing:.02em;
+    padding:10px 6px; border-radius:10px; border:1.5px solid var(--line);
+    background:transparent; color:var(--muted); cursor:pointer;
+  }
+  .tab-btn.active{ border-color:var(--gold); color:var(--paper); background:var(--gold-soft); }
+
+  /* ---------- Sections ---------- */
+  .section{ display:flex; flex-direction:column; gap:12px; }
+  .section[hidden]{ display:none; }
+  .section[data-empty="true"]{ display:none; }
+  .section-head{
+    display:flex; align-items:baseline; gap:10px;
+    font-family:'Anton', Impact, sans-serif; font-weight:400;
+    letter-spacing:.02em;
+  }
+  .section-head h2{ font-size:20px; color:var(--paper); }
+  .section-head .count{ font-family:'Space Mono', monospace; font-size:12px; color:var(--muted); }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:14px; }
+  .list-wide{ display:flex; flex-direction:column; gap:16px; }
+
+  .week-list{ display:flex; flex-direction:column; gap:20px; }
+  .week-block[hidden]{ display:none; }
+  .week-head{
+    font-family:'Space Mono', monospace; font-size:12px; font-weight:700; letter-spacing:.06em;
+    color:var(--gold); text-transform:uppercase;
+    border-bottom:1px dashed var(--line); padding-bottom:6px; margin-bottom:10px;
+  }
+
+  .event-admin-bar{ display:flex; justify-content:flex-end; }
+  .event-admin-bar[hidden]{ display:none; }
+  .btn-ghost{
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:13px;
+    color:var(--gold); background:transparent; border:1.5px solid var(--gold);
+    border-radius:10px; padding:8px 14px; cursor:pointer;
+  }
+
+  /* ---------- Ticket card ---------- */
+  .ticket{
+    position:relative;
+    background:var(--ink-2);
+    border-radius:14px;
+    border:1px solid var(--line);
+    border-left:4px solid var(--line);
+    display:flex; flex-direction:column;
+    box-shadow:0 3px 14px var(--shadow);
+  }
+  .ticket[data-creator="david"]{ border-left-color:var(--col-david); }
+  .ticket[data-creator="malik"]{ border-left-color:var(--col-malik); }
+  .ticket[data-creator="marcel"]{ border-left-color:var(--col-marcel); }
+  .ticket[hidden]{ display:none; }
+  .ticket.tried{ opacity:.62; }
+  .ticket-wide.tried{ opacity:1; }
+  .ticket-wide .ticket-top{ padding:18px 20px 14px; }
+  .ticket-wide .ticket-bottom{ padding:16px 20px 20px; gap:16px; }
+  .ticket-wide .desc{ font-size:14.5px; }
+  .ticket-top{ padding:14px 16px 12px; display:flex; flex-direction:column; gap:8px; }
+  .ticket-toprow{ display:flex; justify-content:flex-end; }
+  .admin-actions{ display:flex; gap:6px; flex:none; }
+  .admin-actions button{
+    background:var(--ink); border:1px solid var(--line); color:var(--paper);
+    border-radius:6px; width:26px; height:26px; font-size:13px; cursor:pointer; padding:0;
+  }
+  .ticket h3{ font-size:17px; font-weight:700; color:var(--paper); line-height:1.25; }
+  .creator-tag{ font-family:'Space Mono', monospace; font-size:11px; font-weight:700; letter-spacing:.03em; margin:-4px 0 0; }
+  .creator-tag[data-creator="david"]{ color:var(--col-david); }
+  .creator-tag[data-creator="malik"]{ color:var(--col-malik); }
+  .creator-tag[data-creator="marcel"]{ color:var(--col-marcel); }
+  .ticket .loc{ font-size:12.5px; color:var(--muted); }
+  .ticket .loc b{ color:var(--paper); font-weight:600; }
+  .ticket .desc{ font-size:13.5px; line-height:1.5; color:var(--paper); opacity:.92; }
+  .ticket .desc a{ word-break:break-all; }
+  .ticket .info{ font-size:12px; color:var(--muted); font-style:italic; }
+  .ticket .src{ font-size:12px; }
+
+  .perf{
+    position:relative;
+    border-top:2px dashed var(--line);
+    margin-top:2px;
+  }
+  .perf::before, .perf::after{
+    content:""; position:absolute; top:-8px; width:16px; height:16px;
+    background:var(--ink); border-radius:50%;
+  }
+  .perf::before{ left:-9px; }
+  .perf::after{ right:-9px; }
+
+  .ticket-bottom{ padding:12px 16px 14px; display:flex; flex-direction:column; gap:10px; }
+  .tried-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .tried-check{ display:flex; align-items:center; gap:7px; font-size:13px; color:var(--paper); cursor:pointer; user-select:none; }
+  .tried-check input{ accent-color:var(--gold); width:16px; height:16px; }
+
+  .rate10{ display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
+  .rate10[hidden]{ display:none; }
+  .rate10-cell{ display:flex; flex-direction:column; align-items:center; gap:4px; font-size:11px; color:var(--muted); }
+  .rate10-cell .rname{ font-family:'Space Mono', monospace; }
+  .rate10-cell .rval{ font-family:'Space Mono', monospace; font-size:15px; font-weight:700; color:var(--paper); }
+  .rate10-cell.self .rval{ color:var(--gold); }
+  .rate10-input{
+    width:100%; text-align:center;
+    background:var(--ink); color:var(--gold); border:1px solid var(--line); border-radius:8px;
+    padding:6px 4px; font-family:'Space Mono', monospace; font-size:15px; font-weight:700;
+  }
+  .rate10-input:focus-visible{ outline:2px solid var(--gold); }
+
+  .rate10-wide{ display:flex; flex-direction:column; gap:10px; }
+  .rate10-wide-row{ display:flex; align-items:center; gap:12px; }
+  .rate10-wide-row .rname{ width:52px; flex:none; font-family:'Space Mono', monospace; font-size:12.5px; color:var(--muted); }
+  .rate10-wide-row.self .rname{ color:var(--paper); }
+  .rate10-wide-row .rbar{ flex:1; height:10px; background:var(--ink); border-radius:6px; overflow:hidden; border:1px solid var(--line); }
+  .rate10-wide-row .rbar-fill{ display:block; height:100%; background:var(--gold); border-radius:6px; transition:width .2s ease; }
+  .rate10-wide-row .rval{ width:28px; flex:none; text-align:right; font-family:'Space Mono', monospace; font-weight:700; font-size:16px; color:var(--paper); }
+  .rate10-wide-row.self .rval{ color:var(--gold); }
+  .rate10-wide-input{
+    width:52px; flex:none; text-align:center;
+    background:var(--ink); color:var(--gold); border:1px solid var(--line); border-radius:8px;
+    padding:7px 4px; font-family:'Space Mono', monospace; font-size:16px; font-weight:700;
+  }
+  .rate10-wide-input:focus-visible{ outline:2px solid var(--gold); }
+
+  .note-toggle{
+    background:none; border:none; color:var(--muted); font-size:12px;
+    text-decoration:underline; cursor:pointer; padding:0; text-align:left; width:fit-content;
+    font-family:'Work Sans', sans-serif;
+  }
+  .note-box{ display:none; flex-direction:column; gap:6px; }
+  .note-box.open{ display:flex; }
+  .note-box textarea{
+    resize:vertical; min-height:44px;
+    background:var(--ink); color:var(--paper);
+    border:1px solid var(--line); border-radius:8px;
+    padding:8px; font-family:'Work Sans', sans-serif; font-size:12.5px;
+  }
+  .note-box textarea:focus-visible{ outline:2px solid var(--gold); }
+
+  .note-wide label{ display:block; font-size:12px; color:var(--muted); margin-bottom:6px; }
+  .note-wide textarea{ min-height:110px; }
+
+  .stamp{
+    position:absolute; top:8px; right:10px;
+    font-family:'Space Mono', monospace; font-weight:700; font-size:11px;
+    letter-spacing:.08em; color:var(--red);
+    border:2px solid var(--red); border-radius:6px;
+    padding:2px 6px; transform:rotate(-9deg);
+    opacity:0; transition:opacity .2s ease;
+    pointer-events:none;
+  }
+  .ticket.tried .stamp{ opacity:.9; }
+
+  /* ---------- Overlays: item form + password form ---------- */
+  .form-overlay{ position:fixed; inset:0; z-index:50; background:rgba(10,12,26,.92); display:flex; align-items:center; justify-content:center; padding:20px; overflow-y:auto; }
+  .form-overlay[hidden]{ display:none; }
+  .form-card{
+    background:var(--ink-2); border:2px dashed var(--gold); border-radius:20px;
+    padding:24px; max-width:420px; width:100%; display:flex; flex-direction:column; gap:12px;
+  }
+  .form-card h2{ font-family:'Anton', Impact, sans-serif; font-weight:400; font-size:20px; color:var(--paper); }
+  .form-card label{ display:flex; flex-direction:column; gap:4px; font-size:12px; color:var(--muted); }
+  .form-card label[hidden]{ display:none; }
+  .form-card input, .form-card textarea{
+    background:var(--ink); color:var(--paper); border:1px solid var(--line); border-radius:8px;
+    padding:9px 10px; font-family:'Work Sans', sans-serif; font-size:14px;
+  }
+  .form-card textarea{ resize:vertical; min-height:60px; }
+  .form-actions{ display:flex; gap:10px; justify-content:flex-end; margin-top:4px; }
+  .btn-primary{
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:14px;
+    background:var(--red); color:var(--ink); border:none; border-radius:10px; padding:10px 16px; cursor:pointer;
+  }
+  .btn-primary:disabled{ opacity:.6; cursor:default; }
+  .btn-secondary{
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:14px;
+    background:transparent; color:var(--muted); border:1.5px solid var(--line); border-radius:10px; padding:10px 16px; cursor:pointer;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .spin-btn, .ticket, #wheelCanvas{ transition:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="hero">
+    <h1>First Time Z</h1>
+  </div>
+
+  <div id="appWrap" hidden>
+
+    <div class="userbar">
+      <span>👤 <b id="userbarName">–</b> <button type="button" id="changePwBtn">PW ändern</button> <button type="button" id="switchUser">abmelden</button></span>
+      <span class="stat" id="totalStat">0 Ideen im Umlauf</span>
+      <span class="sync"><span id="syncState">⚙️ nicht eingerichtet</span><button type="button" id="refreshBtn" title="Aktualisieren">🔄</button></span>
+    </div>
+
+    <div class="wheel-section" id="wheelSection">
+      <div class="week-filter" id="weekFilter" hidden></div>
+      <div class="wheel-stage">
+        <div class="wheel-pointer"></div>
+        <canvas id="wheelCanvas" width="280" height="280"></canvas>
+      </div>
+      <div class="spin-status" id="spinStatus"></div>
+      <button class="spin-btn" id="spinBtn" type="button">RAD DREHEN</button>
+      <div class="ticket result-card" id="resultCard"></div>
+      <div class="result-confirm" id="resultConfirm" hidden>
+        <div class="spin-status" id="resultConfirmStatus"></div>
+        <button class="btn-primary" id="resultOkBtn" type="button">Bestätigen</button>
+      </div>
+      <button type="button" class="note-toggle" id="historyToggleBtn">Verlauf anzeigen</button>
+      <div class="history-list" id="historyList" hidden></div>
+    </div>
+
+    <div class="tabs">
+      <button type="button" class="tab-btn active" id="tabCardsBtn">Karten</button>
+      <button type="button" class="tab-btn" id="tabEventsBtn">Events</button>
+      <button type="button" class="tab-btn" id="tabDoneBtn">Ausprobiert</button>
+    </div>
+
+    <div class="event-admin-bar" id="cardsAdminBar" hidden>
+      <button type="button" class="btn-ghost" id="addCardBtn">➕ Neue Karte</button>
+    </div>
+    <section class="section" id="optionsSection">
+      <div class="section-head"><h2>Karten</h2><span class="count" id="optionsCount"></span></div>
+      <div class="grid" id="optionsGrid"></div>
+    </section>
+
+    <div class="event-admin-bar" id="eventsAdminBar" hidden>
+      <button type="button" class="btn-ghost" id="addEventBtn">➕ Neues Event</button>
+    </div>
+    <section class="section" id="eventsSection" hidden>
+      <div class="section-head"><h2>Events</h2><span class="count" id="eventsCount"></span></div>
+      <div class="week-list" id="eventsGrid"></div>
+    </section>
+
+    <section class="section" id="doneSection" hidden>
+      <div class="section-head"><h2>Ausprobiert</h2><span class="count" id="doneCount"></span></div>
+      <div class="list-wide" id="doneGrid"></div>
+    </section>
+
+  </div>
+</div>
+
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <h2>Anmelden</h2>
+    <div class="user-pick" id="userPick">
+      <button type="button" data-user="david">David</button>
+      <button type="button" data-user="malik">Malik</button>
+      <button type="button" data-user="marcel">Marcel</button>
+    </div>
+    <form id="loginForm" hidden>
+      <label>Passwort für <span id="loginAsName"></span><input type="password" id="login-pw" required autocomplete="current-password"></label>
+      <p class="login-error" id="loginError" hidden>Falsches Passwort.</p>
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" id="login-back">Zurück</button>
+        <button type="submit" class="btn-primary" id="loginSubmitBtn">Anmelden</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="form-overlay" id="pwFormOverlay" hidden>
+  <form class="form-card" id="pwForm">
+    <h2>Passwort ändern</h2>
+    <label>Neues Passwort<input type="password" id="pw-new" required minlength="4" autocomplete="new-password"></label>
+    <label>Wiederholen<input type="password" id="pw-confirm" required minlength="4" autocomplete="new-password"></label>
+    <p class="login-error" id="pwError" hidden>Passwörter stimmen nicht überein (mind. 4 Zeichen).</p>
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" id="pw-cancel">Abbrechen</button>
+      <button type="submit" class="btn-primary">Speichern</button>
+    </div>
+  </form>
+</div>
+
+<div class="form-overlay" id="itemFormOverlay" hidden>
+  <form class="form-card" id="itemForm">
+    <h2 id="itemFormTitle">Neue Karte</h2>
+    <label>Titel*<input type="text" id="if-name" required></label>
+    <label>Ort<input type="text" id="if-loc"></label>
+    <label id="if-date-wrap" hidden>Termin<input type="date" id="if-date"></label>
+    <label>Preis<input type="text" id="if-preis" placeholder="z. B. 15 € oder kostenlos"></label>
+    <label>Beschreibung<textarea id="if-desc" placeholder="Link gerne einfach mit reinschreiben"></textarea></label>
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" id="if-cancel">Abbrechen</button>
+      <button type="submit" class="btn-primary">Speichern</button>
+    </div>
+  </form>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     HIER EINTRAGEN, BEVOR DU DIE DATEI HOCHLÄDST:
+     GH_OWNER  = dein GitHub-Benutzername
+     GH_REPO   = der Name deines Repositories
+     GH_TOKEN  = ein Fine-grained Personal Access Token mit
+                 "Contents: Read and write" NUR für dieses eine Repo
+     Lass GH_BRANCH und GH_PATH so stehen, außer du änderst den
+     Branch-Namen oder willst die Datei anders nennen.
+     ============================================================ */
+  var GH_OWNER  = "DEIN-GITHUB-USERNAME";
+  var GH_REPO   = "DEIN-REPO-NAME";
+  var GH_TOKEN  = "DEIN-TOKEN-HIER";
+  var GH_BRANCH = "main";
+  var GH_PATH   = "data.json";
+  var GH_READY  = GH_OWNER.indexOf("DEIN-") !== 0 && GH_REPO.indexOf("DEIN-") !== 0 && GH_TOKEN.indexOf("DEIN-") !== 0;
+
+  var USERS = ["david","malik","marcel"];
+  var USER_LABEL = { david:"David", malik:"Malik", marcel:"Marcel" };
+  var currentUser = null;
+  var LS_USER_KEY = "neuland_user_v2";
+
+  function defaultDraw(){ return { status:"idle", excludedWeeks:[], confirmedResult:[], resultItemId:null, drawnBy:null }; }
+  function defaultData(){ return { items:[], ratings:{}, notes:{}, auth:{}, tried:{}, draw: defaultDraw(), history:[] }; }
+
+  var OPTIONS = [];  // die recherchierten Karten wurden entfernt (siehe Chat) - alles läuft jetzt über CUSTOM
+  var CUSTOM = [];   // aus data.json geladen: von David verwaltete Karten + Events, gemischt
+  var shared = defaultData();
+  var sharedTried = {};
+
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var cardRefs = {};       // id -> {el, checkbox, noteBox, noteToggle, textarea, stamp, rateBox, rateInput, wide}
+  var noteSaveTimers = {}; // id -> Timeout-Handle für gedebounctes Speichern der Notiz
+  var activeTab = "cards";
+
+  function esc(s){
+    return String(s==null?"":s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+  function linkify(escapedText){
+    return escapedText.replace(/(https?:\/\/[^\s<]+)/g, function(url){
+      return '<a href="'+url+'" target="_blank" rel="noopener">'+url+'</a>';
+    });
+  }
+  function fmtDateDE(iso){
+    if(!iso) return "";
+    var p = iso.split("-");
+    if(p.length !== 3) return iso;
+    return p[2]+"."+p[1]+"."+p[0];
+  }
+  function sha256Hex(str){
+    var enc = new TextEncoder().encode(str);
+    return crypto.subtle.digest("SHA-256", enc).then(function(buf){
+      return Array.prototype.map.call(new Uint8Array(buf), function(b){
+        return (b < 16 ? "0" : "") + b.toString(16);
+      }).join("");
+    });
+  }
+  function randomSalt(){
+    var arr = new Uint8Array(8);
+    crypto.getRandomValues(arr);
+    return Array.prototype.map.call(arr, function(b){ return (b<16?"0":"")+b.toString(16); }).join("");
+  }
+  function mod360(x){ return ((x % 360) + 360) % 360; }
+
+  function allCards(){ return OPTIONS.concat(CUSTOM.filter(function(i){ return i.type === "option"; })); }
+  function allEvents(){ return CUSTOM.filter(function(i){ return i.type === "event"; }); }
+  function allItems(){ return OPTIONS.concat(CUSTOM); }
+  // Ausprobierte Karten/Events wandern in den "Ausprobiert"-Tab und verschwinden hier.
+  function cardsPool(){ return allCards().filter(function(i){ return !sharedTried[i.id]; }); }
+  function eventsPool(){ return allEvents().filter(function(i){ return !sharedTried[i.id]; }); }
+  function donePool(){
+    return allItems().filter(function(item){ return !!sharedTried[item.id]; }).sort(function(a,b){
+      var ta = sharedTried[a.id], tb = sharedTried[b.id];
+      if(typeof ta === "string" && typeof tb === "string") return tb.localeCompare(ta);
+      return 0;
+    });
+  }
+
+  // ---------- Kalenderwochen-Hilfsfunktionen ----------
+  function isoWeekInfo(d){
+    var target = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    var dayNr = (target.getUTCDay() + 6) % 7;
+    var monday = new Date(target); monday.setUTCDate(target.getUTCDate() - dayNr);
+    var thursday = new Date(monday); thursday.setUTCDate(monday.getUTCDate() + 3);
+    var firstThursday = new Date(Date.UTC(thursday.getUTCFullYear(), 0, 4));
+    var fThDay = (firstThursday.getUTCDay() + 6) % 7;
+    firstThursday.setUTCDate(firstThursday.getUTCDate() - fThDay + 3);
+    var week = 1 + Math.round((thursday - firstThursday) / (7*24*3600*1000));
+    var sunday = new Date(monday); sunday.setUTCDate(monday.getUTCDate() + 6);
+    return { week:week, year:thursday.getUTCFullYear(), monday:monday, sunday:sunday };
+  }
+  function fmtShort(d){
+    function p(n){ return n<10 ? "0"+n : ""+n; }
+    return p(d.getUTCDate())+"."+p(d.getUTCMonth()+1)+".";
+  }
+  function weekKeyOf(dateStr){
+    if(!dateStr) return null;
+    var d = new Date(dateStr+"T00:00:00");
+    if(isNaN(d.getTime())) return null;
+    var wi = isoWeekInfo(d);
+    return wi.year+"-"+wi.week;
+  }
+
+  // ---------- Ziehungs-Pool: gemeinsam, unabhängig vom "nur noch nicht ausprobiertes zeigen"-Filter ----------
+  function computeEligiblePool(items, triedMap, excludedWeeks){
+    var ex = excludedWeeks || [];
+    var eligible = [];
+    items.forEach(function(item){
+      if(triedMap[item.id]) return;
+      if(item.type === "event" && item.date){
+        var key = weekKeyOf(item.date);
+        if(key && ex.indexOf(key) !== -1) return;
+      }
+      eligible.push(item);
+    });
+    return eligible;
+  }
+  function computeClientPool(){
+    return computeEligiblePool(allItems(), sharedTried, (shared.draw && shared.draw.excludedWeeks) || []);
+  }
+  function computePoolFromData(data){
+    return computeEligiblePool(Array.isArray(data.items)?data.items:[], data.tried||{}, (data.draw && data.draw.excludedWeeks)||[]);
+  }
+  function knownWeeks(){
+    var map = {};
+    allEvents().forEach(function(item){
+      var key = weekKeyOf(item.date);
+      if(!key) return;
+      if(!map[key]){
+        var d = new Date(item.date+"T00:00:00");
+        var wi = isoWeekInfo(d);
+        map[key] = { key:key, label:"KW "+wi.week+" · "+fmtShort(wi.monday)+"–"+fmtShort(wi.sunday), monday:wi.monday };
+      }
+    });
+    return Object.keys(map).map(function(k){ return map[k]; }).sort(function(a,b){ return a.monday-b.monday; });
+  }
+
+  // ---------- card building ----------
+  function buildCard(item, wide){
+    var el = document.createElement("article");
+    el.className = "ticket" + (wide ? " ticket-wide" : "");
+    el.dataset.id = item.id;
+    var creator = item.createdBy || "david";
+    el.dataset.creator = creator;
+
+    var stamp = document.createElement("span");
+    stamp.className = "stamp";
+    stamp.textContent = "PROBIERT";
+    el.appendChild(stamp);
+
+    var top = document.createElement("div");
+    top.className = "ticket-top";
+
+    var isEditable = !!item.custom && (currentUser === "david" || currentUser === creator);
+    var adminHtml = isEditable
+      ? '<div class="ticket-toprow"><span class="admin-actions"><button type="button" class="it-edit" title="Bearbeiten">✏️</button><button type="button" class="it-del" title="Löschen">🗑️</button></span></div>'
+      : "";
+
+    top.innerHTML =
+      adminHtml +
+      '<h3>'+esc(item.name)+'</h3>'+
+      (item.custom ? '<p class="creator-tag" data-creator="'+esc(creator)+'">● '+esc(USER_LABEL[creator]||creator)+'</p>' : '')+
+      (item.loc ? '<p class="loc">Ort: <b>'+esc(item.loc)+'</b></p>' : '')+
+      (item.date ? '<p class="loc">Termin: <b>'+esc(fmtDateDE(item.date))+'</b></p>' : '')+
+      (item.preis ? '<p class="loc">Preis: <b>'+esc(item.preis)+'</b></p>' : '')+
+      (item.desc ? '<p class="desc">'+linkify(esc(item.desc))+'</p>' : '')+
+      (item.info ? '<p class="info">'+esc(item.info)+'</p>' : '')+
+      (item.link ? '<p class="src"><a href="'+esc(item.link)+'" target="_blank" rel="noopener">Quelle & Details ansehen →</a></p>' : '');
+    el.appendChild(top);
+
+    if(isEditable){
+      top.querySelector(".it-edit").addEventListener("click", function(){ openItemForm(item.type, item); });
+      top.querySelector(".it-del").addEventListener("click", function(){ deleteItem(item.id); });
+    }
+
+    var perf = document.createElement("div");
+    perf.className = "perf";
+    el.appendChild(perf);
+
+    var bottom = document.createElement("div");
+    bottom.className = "ticket-bottom";
+
+    var triedRow = document.createElement("div");
+    triedRow.className = "tried-row";
+    var label = document.createElement("label");
+    label.className = "tried-check";
+    var cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.id = "tried-"+item.id;
+    var span = document.createElement("span");
+    span.textContent = "ausprobiert";
+    label.appendChild(cb); label.appendChild(span);
+    triedRow.appendChild(label);
+    bottom.appendChild(triedRow);
+
+    var rateBox = document.createElement("div");
+    rateBox.className = "rate10";
+    rateBox.hidden = true;
+    bottom.appendChild(rateBox);
+
+    cb.addEventListener("change", function(){
+      setTried(item.id, cb.checked);
+    });
+
+    var noteToggle = null, noteBox, ta;
+    if(wide){
+      noteBox = document.createElement("div");
+      noteBox.className = "note-box note-wide open";
+      var noteLabel = document.createElement("label");
+      noteLabel.textContent = "Notiz";
+      noteLabel.setAttribute("for", "note-"+item.id);
+      noteBox.appendChild(noteLabel);
+      ta = document.createElement("textarea");
+      ta.id = "note-"+item.id;
+      ta.placeholder = "z. B. wie war's, was ist aufgefallen...";
+      noteBox.appendChild(ta);
+      bottom.appendChild(noteBox);
+    }else{
+      noteToggle = document.createElement("button");
+      noteToggle.type = "button";
+      noteToggle.className = "note-toggle";
+      noteToggle.textContent = "+ Notiz";
+      bottom.appendChild(noteToggle);
+
+      noteBox = document.createElement("div");
+      noteBox.className = "note-box";
+      ta = document.createElement("textarea");
+      ta.id = "note-"+item.id;
+      ta.placeholder = "z. B. Datum, wer dabei war, wie war's...";
+      noteBox.appendChild(ta);
+      bottom.appendChild(noteBox);
+
+      noteToggle.addEventListener("click", function(){
+        var open = noteBox.classList.toggle("open");
+        noteToggle.textContent = open ? "− Notiz" : "+ Notiz";
+        if(open) ta.focus();
+      });
+    }
+    ta.addEventListener("input", function(){
+      clearTimeout(noteSaveTimers[item.id]);
+      noteSaveTimers[item.id] = setTimeout(function(){
+        var val = ta.value;
+        shared.notes[item.id] = val;
+        queueSave(function(data){
+          data.notes = data.notes || {};
+          if(val) data.notes[item.id] = val; else delete data.notes[item.id];
+        });
+      }, 700);
+    });
+
+    el.appendChild(bottom);
+
+    cardRefs[item.id] = { el:el, checkbox:cb, noteToggle:noteToggle, noteBox:noteBox, textarea:ta, stamp:stamp, rateBox:rateBox, rateInput:null, wide:!!wide };
+    renderRateBlock(item, cardRefs[item.id], wide);
+    return el;
+  }
+
+  function applyStatusToCard(id){
+    var ref = cardRefs[id];
+    if(!ref) return;
+    var tried = !!sharedTried[id];
+    ref.checkbox.checked = tried;
+    ref.el.classList.toggle("tried", tried);
+    ref.rateBox.hidden = !tried;
+    if(document.activeElement !== ref.textarea){
+      ref.textarea.value = (shared.notes && shared.notes[id]) || "";
+    }
+  }
+
+  function setTried(id, val){
+    // Ausprobierte Karten/Events wandern in einen eigenen Tab, darum reicht
+    // hier kein einfaches Umschalten mehr – die Grids müssen neu aufgebaut werden.
+    var stamp = val ? new Date().toISOString() : null;
+    if(val) sharedTried[id] = stamp; else delete sharedTried[id];
+    rerenderEverything();
+    queueSave(function(data){
+      data.tried = data.tried || {};
+      if(val) data.tried[id] = stamp; else delete data.tried[id];
+    });
+  }
+
+  // ---------- 0–10 Bewertung pro Karte (geteilt über GitHub) ----------
+  function renderRateBlock(item, ref, wide){
+    if(ref.rateInput && document.activeElement === ref.rateInput) return;
+    var box = ref.rateBox;
+    var ratingsForItem = shared.ratings[item.id] || {};
+    box.className = wide ? "rate10 rate10-wide" : "rate10";
+    box.innerHTML = "";
+    USERS.forEach(function(u){
+      var val = ratingsForItem[u];
+      var cell = document.createElement("div");
+      if(wide){
+        cell.className = "rate10-wide-row" + (u===currentUser ? " self" : "");
+        var pct = (val==null) ? 0 : Math.max(0, Math.min(10, val))*10;
+        var barHtml = '<span class="rname">'+esc(u===currentUser ? "Du" : USER_LABEL[u])+'</span>'+
+          '<span class="rbar"><span class="rbar-fill" style="width:'+pct+'%"></span></span>';
+        if(u === currentUser){
+          cell.innerHTML = barHtml + '<input type="number" min="0" max="10" step="1" class="rate10-wide-input" value="'+(val==null?"":val)+'" placeholder="–">';
+        }else{
+          cell.innerHTML = barHtml + '<span class="rval">'+(val==null?"–":val)+'</span>';
+        }
+      }else{
+        cell.className = "rate10-cell" + (u===currentUser ? " self" : "");
+        if(u === currentUser){
+          cell.innerHTML = '<span class="rname">Du</span><input type="number" min="0" max="10" step="1" class="rate10-input" value="'+(val==null?"":val)+'" placeholder="–">';
+        }else{
+          cell.innerHTML = '<span class="rname">'+esc(USER_LABEL[u])+'</span><span class="rval">'+(val==null?"–":val)+'</span>';
+        }
+      }
+      box.appendChild(cell);
+    });
+    ref.rateInput = box.querySelector(".rate10-input, .rate10-wide-input");
+    if(ref.rateInput){
+      ref.rateInput.addEventListener("change", function(){
+        var raw = ref.rateInput.value;
+        var v = raw === "" ? null : Math.max(0, Math.min(10, parseInt(raw,10)));
+        if(v != null && isNaN(v)) v = null;
+        ref.rateInput.value = v==null ? "" : v;
+        shared.ratings[item.id] = shared.ratings[item.id] || {};
+        shared.ratings[item.id][currentUser] = v;
+        queueSave(function(data){
+          data.ratings = data.ratings || {};
+          data.ratings[item.id] = data.ratings[item.id] || {};
+          data.ratings[item.id][currentUser] = v;
+        });
+        if(wide){
+          var fill = box.querySelector(".rate10-wide-row.self .rbar-fill");
+          if(fill) fill.style.width = (v==null?0:v*10) + "%";
+        }
+      });
+    }
+  }
+  function refreshRatingsUI(){
+    allItems().forEach(function(item){
+      var ref = cardRefs[item.id];
+      if(ref) renderRateBlock(item, ref, ref.wide);
+    });
+  }
+
+  // ---------- Zähler & Leer-Status pro Sektion ----------
+  function updateSectionVisibility(items, countEl, sectionEl, singular, plural){
+    var n = items.length;
+    countEl.textContent = n + (n===1 ? " "+singular : " "+plural);
+    sectionEl.dataset.empty = n === 0 ? "true" : "false";
+  }
+  function updateWeekBlockVisibility(){
+    document.querySelectorAll("#eventsGrid .week-block").forEach(function(block){
+      block.hidden = block.querySelectorAll(".ticket").length === 0;
+    });
+  }
+  function applyFilters(){
+    updateSectionVisibility(cardsPool(), document.getElementById("optionsCount"), document.getElementById("optionsSection"), "Karte", "Karten");
+    updateSectionVisibility(eventsPool(), document.getElementById("eventsCount"), document.getElementById("eventsSection"), "Event", "Events");
+    updateSectionVisibility(donePool(), document.getElementById("doneCount"), document.getElementById("doneSection"), "erledigte Karte", "erledigte Karten");
+    updateWeekBlockVisibility();
+  }
+
+  // ---------- Karten-Grid ----------
+  function renderCardsSection(){
+    var grid = document.getElementById("optionsGrid");
+    grid.innerHTML = "";
+    cardsPool().forEach(function(item){ grid.appendChild(buildCard(item)); });
+    cardsPool().forEach(function(item){ applyStatusToCard(item.id); });
+  }
+
+  // ---------- Ausprobiert-Grid: eine Karte pro Zeile, mehr Platz für Notiz & Bewertung ----------
+  function renderDoneSection(){
+    var wrap = document.getElementById("doneGrid");
+    wrap.innerHTML = "";
+    donePool().forEach(function(item){ wrap.appendChild(buildCard(item, true)); });
+    donePool().forEach(function(item){ applyStatusToCard(item.id); });
+  }
+
+  // ---------- Events-Grid, gruppiert nach Kalenderwoche ----------
+  function renderEventsSection(){
+    var wrap = document.getElementById("eventsGrid");
+    wrap.innerHTML = "";
+
+    var dated = [], undated = [];
+    eventsPool().forEach(function(item){
+      var d = item.date ? new Date(item.date+"T00:00:00") : null;
+      if(d && !isNaN(d.getTime())){ dated.push({ item:item, date:d }); }
+      else{ undated.push(item); }
+    });
+    dated.sort(function(a,b){ return a.date - b.date; });
+
+    var groups = [];
+    dated.forEach(function(entry){
+      var wi = isoWeekInfo(entry.date);
+      var key = wi.year+"-"+wi.week;
+      var group = groups.filter(function(g){ return g.key===key; })[0];
+      if(!group){
+        group = { key:key, label:"KW "+wi.week+" · "+fmtShort(wi.monday)+"–"+fmtShort(wi.sunday), items:[] };
+        groups.push(group);
+      }
+      group.items.push(entry.item);
+    });
+
+    groups.forEach(function(group){
+      var block = document.createElement("div");
+      block.className = "week-block";
+      var head = document.createElement("div");
+      head.className = "week-head";
+      head.textContent = group.label;
+      block.appendChild(head);
+      var grid = document.createElement("div");
+      grid.className = "grid";
+      group.items.forEach(function(item){ grid.appendChild(buildCard(item)); });
+      block.appendChild(grid);
+      wrap.appendChild(block);
+    });
+
+    if(undated.length){
+      var block2 = document.createElement("div");
+      block2.className = "week-block";
+      var head2 = document.createElement("div");
+      head2.className = "week-head";
+      head2.textContent = "Ohne festen Termin";
+      block2.appendChild(head2);
+      var grid2 = document.createElement("div");
+      grid2.className = "grid";
+      undated.forEach(function(item){ grid2.appendChild(buildCard(item)); });
+      block2.appendChild(grid2);
+      wrap.appendChild(block2);
+    }
+
+    eventsPool().forEach(function(item){ applyStatusToCard(item.id); });
+  }
+
+  function updateTotals(){
+    var n = allItems().length;
+    document.getElementById("totalStat").textContent = n + " Ideen im Umlauf";
+  }
+
+  function rerenderEverything(){
+    renderCardsSection();
+    renderEventsSection();
+    renderDoneSection();
+    refreshRatingsUI();
+    updateAdminBars();
+    updateTotals();
+    applyFilters();
+    syncDrawUI();
+  }
+
+  // ---------- Tabs ----------
+  function setTab(tab){
+    activeTab = tab;
+    document.getElementById("tabCardsBtn").classList.toggle("active", tab==="cards");
+    document.getElementById("tabEventsBtn").classList.toggle("active", tab==="events");
+    document.getElementById("tabDoneBtn").classList.toggle("active", tab==="done");
+    document.getElementById("optionsSection").hidden = tab !== "cards";
+    document.getElementById("eventsSection").hidden = tab !== "events";
+    document.getElementById("doneSection").hidden = tab !== "done";
+    updateAdminBars();
+  }
+  function updateAdminBars(){
+    // Karten und Events dürfen jetzt alle drei anlegen (deswegen die Farbcodierung nach Ersteller).
+    document.getElementById("cardsAdminBar").hidden = !(activeTab==="cards" && !!currentUser);
+    document.getElementById("eventsAdminBar").hidden = !(activeTab==="events" && !!currentUser);
+  }
+
+  // ---------- GitHub-Sync (data.json im eigenen Repo) ----------
+  function ghRawUrl(){ return "https://raw.githubusercontent.com/"+GH_OWNER+"/"+GH_REPO+"/"+GH_BRANCH+"/"+GH_PATH+"?t="+Date.now(); }
+  function ghApiUrl(){ return "https://api.github.com/repos/"+GH_OWNER+"/"+GH_REPO+"/contents/"+GH_PATH; }
+  function b64EncodeUnicode(str){ return btoa(unescape(encodeURIComponent(str))); }
+  function b64DecodeUnicode(str){ return decodeURIComponent(escape(atob(str))); }
+
+  function setSyncState(state){
+    var el = document.getElementById("syncState");
+    if(!el) return;
+    var map = { off:"⚙️ nicht eingerichtet", loading:"⏳ lädt…", saving:"💾 speichert…", ok:"✅ synchronisiert", error:"⚠️ Fehler beim Speichern" };
+    el.textContent = map[state] || "";
+  }
+
+  function ghLoad(){
+    if(!GH_READY) return Promise.reject(new Error("not configured"));
+    return fetch(ghRawUrl(), { cache:"no-store" }).then(function(r){
+      if(!r.ok) throw new Error("http "+r.status);
+      return r.json();
+    });
+  }
+
+  function fetchData(){
+    return ghLoad().then(function(data){
+      CUSTOM = Array.isArray(data.items) ? data.items : [];
+      CUSTOM.forEach(function(it){ it.custom = true; if(!it.type) it.type = "option"; });
+      shared.items = CUSTOM;
+      shared.ratings = data.ratings || {};
+      shared.notes = data.notes || {};
+      shared.auth = data.auth || {};
+      shared.tried = data.tried || {};
+      shared.draw = Object.assign(defaultDraw(), data.draw || {});
+      shared.history = Array.isArray(data.history) ? data.history : [];
+      sharedTried = shared.tried;
+    });
+  }
+
+  var ghBusy = false, ghPending = null;
+  function queueSave(mutator){
+    if(!GH_READY){ setSyncState("off"); return; }
+    if(ghBusy){ ghPending = mutator; return; }
+    ghBusy = true;
+    attemptSave(mutator, 0);
+  }
+  function attemptSave(mutator, attempt){
+    setSyncState("saving");
+    fetch(ghApiUrl(), { headers:{ "Authorization":"token "+GH_TOKEN, "Accept":"application/vnd.github+json" }, cache:"no-store" })
+      .then(function(r){ if(!r.ok) throw new Error("get http "+r.status); return r.json(); })
+      .then(function(meta){
+        var current;
+        try{ current = JSON.parse(b64DecodeUnicode(meta.content.replace(/\n/g,""))); }
+        catch(e){ current = defaultData(); }
+        mutator(current);
+        var body = {
+          message: "Update von " + (USER_LABEL[currentUser]||"Neuland") + " – " + new Date().toISOString(),
+          content: b64EncodeUnicode(JSON.stringify(current, null, 2)),
+          sha: meta.sha,
+          branch: GH_BRANCH
+        };
+        return fetch(ghApiUrl(), {
+          method:"PUT",
+          headers:{ "Authorization":"token "+GH_TOKEN, "Accept":"application/vnd.github+json", "Content-Type":"application/json" },
+          body: JSON.stringify(body)
+        });
+      })
+      .then(function(r){
+        if(r.status === 409 && attempt < 5){
+          setTimeout(function(){ attemptSave(mutator, attempt+1); }, 150 + attempt*150);
+          return;
+        }
+        if(!r.ok) throw new Error("put http "+r.status);
+        setSyncState("ok");
+        ghBusy = false;
+        if(ghPending){ var m = ghPending; ghPending = null; queueSave(m); }
+        pollDraw();
+      })
+      .catch(function(){
+        setSyncState("error");
+        ghBusy = false;
+        if(ghPending){ var m = ghPending; ghPending = null; queueSave(m); }
+      });
+  }
+
+  function refreshShared(){
+    setSyncState(GH_READY ? "loading" : "off");
+    return fetchData().then(function(){
+      rerenderEverything();
+      setSyncState("ok");
+    }).catch(function(){
+      setSyncState(GH_READY ? "error" : "off");
+    });
+  }
+
+  // ---------- Rad zeichnen ----------
+  var wheelCanvas, wheelCtx, wheelPool = [], wheelRotation = 0, pendingRevealItem = null, animatedResultId = null;
+  var WHEEL_COLORS = ["#f2b53c","#e75b46","#4fb8ab","#b28ae0","#6fa3f2","#7bc47f","#d9a441","#e8637a","#ff8a5b","#c1466a"];
+
+  function drawWheel(pool){
+    wheelPool = pool;
+    var size = wheelCanvas.width;
+    var cx = size/2, cy = size/2, r = size/2 - 4;
+    wheelCtx.clearRect(0,0,size,size);
+    var n = pool.length;
+    if(n === 0){
+      wheelCtx.fillStyle = "#1e2344";
+      wheelCtx.beginPath(); wheelCtx.arc(cx,cy,r,0,Math.PI*2); wheelCtx.fill();
+      wheelCtx.fillStyle = "#a6a3c4";
+      wheelCtx.font = "13px 'Space Mono', monospace";
+      wheelCtx.textAlign = "center";
+      wheelCtx.fillText("keine Karten übrig", cx, cy);
+      return;
+    }
+    var seg = (Math.PI*2) / n;
+    for(var i=0;i<n;i++){
+      var start = -Math.PI/2 + i*seg;
+      var end = start + seg;
+      wheelCtx.beginPath();
+      wheelCtx.moveTo(cx,cy);
+      wheelCtx.arc(cx,cy,r,start,end);
+      wheelCtx.closePath();
+      wheelCtx.fillStyle = WHEEL_COLORS[i % WHEEL_COLORS.length];
+      wheelCtx.fill();
+      wheelCtx.strokeStyle = "#161a2e";
+      wheelCtx.lineWidth = 2;
+      wheelCtx.stroke();
+
+      wheelCtx.save();
+      wheelCtx.translate(cx,cy);
+      wheelCtx.rotate(start + seg/2);
+      wheelCtx.textAlign = "right";
+      wheelCtx.fillStyle = "#161a2e";
+      wheelCtx.font = "700 12px 'Work Sans', sans-serif";
+      var label = pool[i].name.length > 20 ? pool[i].name.slice(0,18)+"…" : pool[i].name;
+      wheelCtx.fillText(label, r - 10, 4);
+      wheelCtx.restore();
+    }
+  }
+
+  function spinToItem(item){
+    var idx = wheelPool.findIndex(function(p){ return p.id === item.id; });
+    if(idx < 0) idx = 0;
+    var n = wheelPool.length || 1;
+    var segDeg = 360/n;
+    var targetAngle = -90 + (idx+0.5)*segDeg;
+    var rMod = mod360(-90 - targetAngle);
+    var prevMod = mod360(wheelRotation);
+    var delta = mod360(rMod - prevMod);
+    if(delta < 1) delta += 360;
+    var extraTurns = 6;
+    wheelRotation += extraTurns*360 + delta;
+    requestAnimationFrame(function(){
+      wheelCanvas.style.transform = "rotate("+wheelRotation+"deg)";
+    });
+  }
+
+  function renderResult(item){
+    var resultCard = document.getElementById("resultCard");
+    resultCard.className = "ticket result-card show";
+    resultCard.innerHTML =
+      '<div class="ticket-top">'+
+        '<h3>'+esc(item.name)+'</h3>'+
+        (item.loc ? '<p class="loc">Ort: <b>'+esc(item.loc)+'</b></p>' : '')+
+        (item.date ? '<p class="loc">Termin: <b>'+esc(fmtDateDE(item.date))+'</b></p>' : '')+
+        (item.preis ? '<p class="loc">Preis: <b>'+esc(item.preis)+'</b></p>' : '')+
+        (item.desc ? '<p class="desc">'+linkify(esc(item.desc))+'</p>' : '')+
+        (item.info ? '<p class="info">'+esc(item.info)+'</p>' : '')+
+        (item.link ? '<p class="src"><a href="'+esc(item.link)+'" target="_blank" rel="noopener">Quelle & Details ansehen →</a></p>' : '')+
+      '</div>';
+  }
+
+  function startSpinSequence(item){
+    if(!item) return;
+    drawWheel(computeClientPool());
+    if(reduceMotion){
+      renderResult(item);
+      return;
+    }
+    document.getElementById("resultCard").classList.remove("show");
+    pendingRevealItem = item;
+    spinToItem(item);
+  }
+
+  // ---------- Ziehungs-Synchronisation (KW-Filter, Bereit-Status, Ergebnis-Bestätigung) ----------
+  function renderWeekFilter(excludedWeeks, locked){
+    var el = document.getElementById("weekFilter");
+    var weeks = knownWeeks();
+    if(!weeks.length){ el.innerHTML = ""; el.hidden = true; return; }
+    el.hidden = false;
+    el.innerHTML = weeks.map(function(w){
+      var checked = excludedWeeks.indexOf(w.key) === -1;
+      return '<label class="week-check'+(locked?" disabled":"")+'"><input type="checkbox" data-week="'+w.key+'" '+(checked?"checked":"")+(locked?" disabled":"")+'> '+esc(w.label)+'</label>';
+    }).join("");
+    el.querySelectorAll("input").forEach(function(cb){
+      cb.addEventListener("change", function(){
+        var key = cb.dataset.week;
+        shared.draw = shared.draw || defaultDraw();
+        shared.draw.excludedWeeks = shared.draw.excludedWeeks || [];
+        var localIdx = shared.draw.excludedWeeks.indexOf(key);
+        if(cb.checked){ if(localIdx!==-1) shared.draw.excludedWeeks.splice(localIdx,1); }
+        else{ if(localIdx===-1) shared.draw.excludedWeeks.push(key); }
+        drawWheel(computeClientPool());
+        queueSave(function(data){
+          data.draw = data.draw || defaultDraw();
+          data.draw.excludedWeeks = data.draw.excludedWeeks || [];
+          var idx = data.draw.excludedWeeks.indexOf(key);
+          if(cb.checked){ if(idx!==-1) data.draw.excludedWeeks.splice(idx,1); }
+          else{ if(idx===-1) data.draw.excludedWeeks.push(key); }
+        });
+      });
+    });
+  }
+
+  function syncDrawUI(){
+    var draw = shared.draw || defaultDraw();
+    renderWeekFilter(draw.excludedWeeks || [], draw.status === "result");
+    var pool = computeClientPool();
+
+    var spinStatusEl = document.getElementById("spinStatus");
+    if(draw.status === "result"){
+      spinStatusEl.textContent = "";
+    }else{
+      spinStatusEl.textContent = pool.length ? (pool.length + (pool.length===1 ? " Karte im Topf" : " Karten im Topf")) : "Keine Karten übrig – Filter prüfen oder neue Karten hinzufügen.";
+    }
+
+    var btn = document.getElementById("spinBtn");
+    if(draw.status === "result"){
+      btn.hidden = true;
+    }else{
+      btn.hidden = false;
+      btn.disabled = pool.length === 0;
+      btn.textContent = "RAD DREHEN";
+    }
+    var resultConfirmEl = document.getElementById("resultConfirm");
+    if(draw.status === "result" && draw.resultItemId){
+      if(animatedResultId !== draw.resultItemId){
+        animatedResultId = draw.resultItemId;
+        var item = allItems().filter(function(x){ return x.id === draw.resultItemId; })[0];
+        startSpinSequence(item);
+      }
+      resultConfirmEl.hidden = false;
+      var rstat = document.getElementById("resultConfirmStatus");
+      rstat.innerHTML = USERS.map(function(u){
+        var ok = (draw.confirmedResult||[]).indexOf(u) !== -1;
+        return '<span class="'+(ok?"ok":"")+'">'+esc(USER_LABEL[u])+(ok?" ✓":"")+'</span>';
+      }).join(" · ");
+      var okBtn = document.getElementById("resultOkBtn");
+      var iConfirmed = (draw.confirmedResult||[]).indexOf(currentUser) !== -1;
+      okBtn.disabled = iConfirmed;
+      okBtn.textContent = iConfirmed ? "Bestätigt ✓" : "Bestätigen";
+    }else{
+      animatedResultId = null;
+      resultConfirmEl.hidden = true;
+      document.getElementById("resultCard").classList.remove("show");
+      drawWheel(pool);
+    }
+
+    if(!document.getElementById("historyList").hidden) renderHistory();
+  }
+
+  var drawPollTimer = null;
+  function pollDraw(){
+    return fetchData().then(function(){ syncDrawUI(); }).catch(function(){});
+  }
+  function drawPollLoop(){
+    pollDraw().then(function(){
+      var interval = (shared.draw && shared.draw.status !== "idle") ? 6000 : 20000;
+      drawPollTimer = setTimeout(drawPollLoop, interval);
+    });
+  }
+  function stopDrawPoll(){ clearTimeout(drawPollTimer); drawPollTimer = null; }
+
+  // Jeder darf jederzeit drehen – kein Warten auf die anderen. Solange ein
+  // Ergebnis noch nicht von allen bestätigt ist, blockiert der Server-Stand
+  // (per optimistic-concurrency-Retry) jede weitere Ziehung, damit niemand
+  // einfach nochmal drehen kann, wenn ihm das Ergebnis nicht passt.
+  function spinNow(){
+    queueSave(function(data){
+      data.draw = data.draw || defaultDraw();
+      if(data.draw.status === "result") return;
+      var pool = computePoolFromData(data);
+      if(!pool.length) return;
+      var picked = pool[Math.floor(Math.random()*pool.length)];
+      data.draw.resultItemId = picked.id;
+      data.draw.status = "result";
+      data.draw.confirmedResult = [];
+      data.draw.drawnBy = currentUser;
+    });
+    pollDraw();
+  }
+
+  function confirmResult(){
+    queueSave(function(data){
+      data.draw = data.draw || defaultDraw();
+      data.draw.confirmedResult = data.draw.confirmedResult || [];
+      if(data.draw.confirmedResult.indexOf(currentUser) === -1) data.draw.confirmedResult.push(currentUser);
+      if(data.draw.confirmedResult.length === USERS.length){
+        var keepWeeks = data.draw.excludedWeeks || [];
+        var drawnItem = (data.items||[]).filter(function(x){ return x.id === data.draw.resultItemId; })[0];
+        data.history = data.history || [];
+        data.history.unshift({
+          itemId: data.draw.resultItemId,
+          name: drawnItem ? drawnItem.name : "(gelöscht)",
+          type: drawnItem ? drawnItem.type : null,
+          drawnBy: data.draw.drawnBy || null,
+          confirmedAt: new Date().toISOString()
+        });
+        if(data.history.length > 100) data.history.length = 100;
+        data.draw = { status:"idle", excludedWeeks:keepWeeks, confirmedResult:[], resultItemId:null, drawnBy:null };
+      }
+    });
+    pollDraw();
+  }
+
+  // ---------- Verlauf: dauerhaft, wächst über Monate, wird nie automatisch geleert ----------
+  function renderHistory(){
+    var list = document.getElementById("historyList");
+    var hist = shared.history || [];
+    if(!hist.length){
+      list.innerHTML = '<p style="text-align:center;color:var(--muted);font-size:12.5px;">Noch keine Ziehung abgeschlossen.</p>';
+      return;
+    }
+    list.innerHTML = hist.map(function(h){
+      var d = h.confirmedAt ? new Date(h.confirmedAt) : null;
+      var ds = (d && !isNaN(d.getTime())) ? fmtDateDE(d.toISOString().slice(0,10)) : "";
+      var who = h.drawnBy ? (USER_LABEL[h.drawnBy] || h.drawnBy) : "";
+      return '<div class="hist-row"><span>'+esc(ds)+(who?" · "+esc(who):"")+'</span><b>'+esc(h.name)+'</b></div>';
+    }).join("");
+  }
+
+  // ---------- Login / Zugriffsschutz ----------
+  var pendingUser = null;
+  function showUserPick(){
+    document.getElementById("userPick").hidden = false;
+    document.getElementById("loginForm").hidden = true;
+    document.getElementById("loginError").hidden = true;
+    document.getElementById("gate").hidden = false;
+  }
+  function checkPassword(user, pw){
+    var a = shared.auth && shared.auth[user];
+    if(!a || !a.hash) return Promise.resolve(false);
+    return sha256Hex(a.salt + pw).then(function(h){ return h === a.hash; });
+  }
+  function enterApp(){
+    document.getElementById("gate").hidden = true;
+    document.getElementById("appWrap").hidden = false;
+    document.getElementById("userbarName").textContent = USER_LABEL[currentUser];
+    refreshShared();
+    drawPollLoop();
+  }
+  function logout(){
+    try{ localStorage.removeItem(LS_USER_KEY); }catch(e){}
+    currentUser = null;
+    stopDrawPoll();
+    document.getElementById("appWrap").hidden = true;
+    showUserPick();
+  }
+
+  // ---------- Item-Formular (Karten & Events: alle drei) ----------
+  var editingItemId = null;
+  var formType = "option";
+  function openItemForm(type, item){
+    formType = item ? item.type : type;
+    editingItemId = item ? item.id : null;
+    document.getElementById("itemFormTitle").textContent = item
+      ? (formType==="event" ? "Event bearbeiten" : "Karte bearbeiten")
+      : (formType==="event" ? "Neues Event" : "Neue Karte");
+    document.getElementById("if-date-wrap").hidden = formType !== "event";
+    document.getElementById("if-name").value = item ? item.name : "";
+    document.getElementById("if-loc").value = item ? (item.loc||"") : "";
+    document.getElementById("if-date").value = item ? (item.date||"") : "";
+    document.getElementById("if-preis").value = item ? (item.preis||"") : "";
+    document.getElementById("if-desc").value = item ? (item.desc||"") : "";
+    document.getElementById("itemFormOverlay").hidden = false;
+  }
+  function closeItemForm(){
+    document.getElementById("itemFormOverlay").hidden = true;
+    editingItemId = null;
+  }
+  function onItemFormSubmit(e){
+    e.preventDefault();
+    var name = document.getElementById("if-name").value.trim();
+    if(!name) return;
+    // Urheberschaft bleibt beim Bearbeiten erhalten (wer's anlegt hat, färbt die Karte,
+    // eine spätere Korrektur durch David o.ä. ändert das nicht).
+    var existing = editingItemId ? CUSTOM.filter(function(it){ return it.id === editingItemId; })[0] : null;
+    var obj = {
+      id: editingItemId || ((formType==="event"?"event-":"card-")+Date.now()),
+      type: formType,
+      custom: true,
+      createdBy: existing ? (existing.createdBy || "david") : currentUser,
+      name: name,
+      loc: document.getElementById("if-loc").value.trim(),
+      preis: document.getElementById("if-preis").value.trim(),
+      desc: document.getElementById("if-desc").value.trim()
+    };
+    if(formType === "event"){
+      obj.date = document.getElementById("if-date").value;
+    }
+    if(editingItemId){
+      CUSTOM = CUSTOM.map(function(it){ return it.id === editingItemId ? obj : it; });
+    }else{
+      CUSTOM = CUSTOM.concat([obj]);
+    }
+    shared.items = CUSTOM;
+    rerenderEverything();
+    queueSave(function(data){ data.items = CUSTOM; });
+    closeItemForm();
+  }
+  function deleteItem(id){
+    if(!window.confirm("Wirklich löschen?")) return;
+    CUSTOM = CUSTOM.filter(function(it){ return it.id !== id; });
+    shared.items = CUSTOM;
+    rerenderEverything();
+    queueSave(function(data){ data.items = CUSTOM; });
+  }
+
+  // ---------- Boot ----------
+  function bindStaticControls(){
+    document.getElementById("switchUser").addEventListener("click", logout);
+    document.getElementById("refreshBtn").addEventListener("click", refreshShared);
+    document.getElementById("tabCardsBtn").addEventListener("click", function(){ setTab("cards"); });
+    document.getElementById("tabEventsBtn").addEventListener("click", function(){ setTab("events"); });
+    document.getElementById("tabDoneBtn").addEventListener("click", function(){ setTab("done"); });
+    document.getElementById("addCardBtn").addEventListener("click", function(){ openItemForm("option", null); });
+    document.getElementById("addEventBtn").addEventListener("click", function(){ openItemForm("event", null); });
+    document.getElementById("if-cancel").addEventListener("click", closeItemForm);
+    document.getElementById("itemForm").addEventListener("submit", onItemFormSubmit);
+    document.getElementById("spinBtn").addEventListener("click", spinNow);
+    document.getElementById("resultOkBtn").addEventListener("click", confirmResult);
+    document.getElementById("historyToggleBtn").addEventListener("click", function(){
+      var list = document.getElementById("historyList");
+      var open = list.hidden;
+      list.hidden = !open;
+      this.textContent = open ? "Verlauf ausblenden" : "Verlauf anzeigen";
+      if(open) renderHistory();
+    });
+    document.addEventListener("visibilitychange", function(){
+      if(document.visibilityState === "visible" && currentUser){
+        refreshShared();
+        if(!drawPollTimer) drawPollLoop();
+      }else{
+        stopDrawPoll();
+      }
+    });
+
+    document.querySelectorAll(".user-pick button").forEach(function(b){
+      b.addEventListener("click", function(){
+        pendingUser = b.dataset.user;
+        document.getElementById("loginAsName").textContent = USER_LABEL[pendingUser];
+        document.getElementById("userPick").hidden = true;
+        document.getElementById("loginForm").hidden = false;
+        document.getElementById("login-pw").value = "";
+        document.getElementById("loginError").hidden = true;
+        document.getElementById("login-pw").focus();
+      });
+    });
+    document.getElementById("login-back").addEventListener("click", function(){
+      pendingUser = null;
+      showUserPick();
+    });
+    document.getElementById("loginForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      var pw = document.getElementById("login-pw").value;
+      var btn = document.getElementById("loginSubmitBtn");
+      btn.disabled = true;
+      fetchData().then(function(){
+        return checkPassword(pendingUser, pw);
+      }).then(function(ok){
+        btn.disabled = false;
+        if(ok){
+          currentUser = pendingUser;
+          try{ localStorage.setItem(LS_USER_KEY, currentUser); }catch(err){}
+          enterApp();
+        }else{
+          document.getElementById("loginError").textContent = "Falsches Passwort.";
+          document.getElementById("loginError").hidden = false;
+        }
+      }).catch(function(){
+        btn.disabled = false;
+        document.getElementById("loginError").textContent = "Verbindung fehlgeschlagen – nochmal versuchen.";
+        document.getElementById("loginError").hidden = false;
+      });
+    });
+
+    document.getElementById("changePwBtn").addEventListener("click", function(){
+      document.getElementById("pw-new").value = "";
+      document.getElementById("pw-confirm").value = "";
+      document.getElementById("pwError").hidden = true;
+      document.getElementById("pwFormOverlay").hidden = false;
+    });
+    document.getElementById("pw-cancel").addEventListener("click", function(){
+      document.getElementById("pwFormOverlay").hidden = true;
+    });
+    document.getElementById("pwForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      var a = document.getElementById("pw-new").value;
+      var b = document.getElementById("pw-confirm").value;
+      if(a !== b || a.length < 4){
+        document.getElementById("pwError").hidden = false;
+        return;
+      }
+      var salt = randomSalt();
+      sha256Hex(salt + a).then(function(hash){
+        shared.auth = shared.auth || {};
+        shared.auth[currentUser] = { salt: salt, hash: hash };
+        queueSave(function(data){
+          data.auth = data.auth || {};
+          data.auth[currentUser] = { salt: salt, hash: hash };
+        });
+        document.getElementById("pwFormOverlay").hidden = true;
+      });
+    });
+
+    wheelCanvas.addEventListener("transitionend", function(e){
+      if(e.propertyName !== "transform") return;
+      if(pendingRevealItem){ renderResult(pendingRevealItem); pendingRevealItem = null; }
+    });
+  }
+
+  function boot(){
+    wheelCanvas = document.getElementById("wheelCanvas");
+    wheelCtx = wheelCanvas.getContext("2d");
+    bindStaticControls();
+    setTab("cards");
+    drawWheel([]);
+    var remembered = null;
+    try{ remembered = localStorage.getItem(LS_USER_KEY); }catch(e){}
+    if(remembered && USERS.indexOf(remembered) !== -1){
+      currentUser = remembered;
+      enterApp();
+    }else{
+      showUserPick();
+      fetchData().catch(function(){});
+    }
+  }
+
+  if(window.claude && window.claude.hot && window.claude.hot.ready){
+    window.claude.hot.ready(boot);
+  }else{
+    boot();
+  }
+})();
+</script>
+</body>
+</html>
