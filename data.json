@@ -61,17 +61,6 @@
       "desc": "Gemütlich die Saar runterpaddeln, Verleih und Rückholservice inklusive."
     },
     {
-      "id": "event-example-1",
-      "type": "event",
-      "custom": true,
-      "createdBy": "david",
-      "name": "Pub-Quiz bei Murphy's",
-      "date": "2026-09-28",
-      "loc": "Old Murphy's Irish Pub, Saarbrücken",
-      "preis": "kostenlos",
-      "desc": "Team-Quizrunden, Plätze vorher reservieren."
-    },
-    {
       "id": "event-example-2",
       "type": "event",
       "custom": true,
