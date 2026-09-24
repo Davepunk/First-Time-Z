@@ -61,7 +61,7 @@
     }
   },
   "notes": {
-    "card-example-3": "schon etwas her, solide 1/10"
+    "card-example-3": "Dschon etwas her, solide 1/10"
   },
   "auth": {
     "david": {
@@ -93,7 +93,5 @@
     "drawnBy": "david"
   },
   "history": [],
-  "onboarded": [
-    
-  ]
+  "onboarded": []
 }
