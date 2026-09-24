@@ -72,17 +72,6 @@
       "desc": "Ab 18 Jahren, Ausweis mitbringen."
     },
     {
-      "id": "event-example-4",
-      "type": "event",
-      "custom": true,
-      "createdBy": "david",
-      "name": "Karten-Draft-Abend",
-      "date": "2026-10-06",
-      "loc": "Dragonlord Games, Saarbrücken",
-      "preis": "",
-      "desc": "Magic, Pokémon und Lorcana."
-    },
-    {
       "id": "event-example-5",
       "type": "event",
       "custom": true,
