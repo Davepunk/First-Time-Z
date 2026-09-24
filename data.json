@@ -127,7 +127,11 @@
       "date": ""
     }
   ],
-  "ratings": {},
+  "ratings": {
+    "card-example-3": {
+      "david": 1
+    }
+  },
   "notes": {},
   "auth": {
     "david": {
