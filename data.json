@@ -124,17 +124,6 @@
       "loc": "Karlsberg Brauerei, Homburg",
       "preis": "",
       "desc": "Blick hinter die Kulissen, zum Schluss eine Kostprobe."
-    },
-    {
-      "id": "event-1790280267178",
-      "type": "event",
-      "custom": true,
-      "createdBy": "david",
-      "name": "adg",
-      "loc": "gafg",
-      "preis": "dsfah",
-      "desc": "aftg",
-      "date": "2026-09-17"
     }
   ],
   "ratings": {},
