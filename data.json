@@ -41,16 +41,6 @@
       "desc": "Äxte ins massive Holz werfen, Kneipenfeeling inklusive."
     },
     {
-      "id": "card-example-5",
-      "type": "option",
-      "custom": true,
-      "createdBy": "david",
-      "name": "Alpaka-Wanderung",
-      "loc": "Saar Alpaka Farm, Saarbrücken",
-      "preis": "auf Anfrage",
-      "desc": "Erst füttern und kennenlernen, dann gemeinsam mit den Tieren durchs Naherholungsgebiet spazieren."
-    },
-    {
       "id": "card-example-6",
       "type": "option",
       "custom": true,
