@@ -480,19 +480,28 @@
 
   /* ============================================================
      HIER EINTRAGEN, BEVOR DU DIE DATEI HOCHLÄDST:
-     GH_OWNER  = dein GitHub-Benutzername
-     GH_REPO   = der Name deines Repositories
-     GH_TOKEN  = ein Fine-grained Personal Access Token mit
-                 "Contents: Read and write" NUR für dieses eine Repo
+     GH_OWNER    = dein GitHub-Benutzername
+     GH_REPO     = der Name deines Repositories
+     WORKER_URL  = die URL deines Cloudflare-Workers
+                   (z. B. https://first-time-z-proxy.deinname.workers.dev)
+     APP_SECRET  = das selbst vergebene App-Passwort, das App und
+                   Worker sich teilen -- MUSS exakt dem Wert
+                   entsprechen, den du als Secret "APP_SECRET" im
+                   Cloudflare-Worker hinterlegst.
+     Der echte GitHub-Token steht NIRGENDS mehr in dieser Datei --
+     er liegt nur noch verschlüsselt in Cloudflare. Genau deshalb
+     kann GitHubs Secret Scanning ihn hier auch nicht mehr finden
+     und killen.
      Lass GH_BRANCH und GH_PATH so stehen, außer du änderst den
      Branch-Namen oder willst die Datei anders nennen.
      ============================================================ */
-  var GH_OWNER  = "Davepunk";
-  var GH_REPO   = "First-Time-Z";
-  var GH_TOKEN  = "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";
-  var GH_BRANCH = "main";
-  var GH_PATH   = "data.json";
-  var GH_READY  = GH_OWNER.indexOf("DEIN-") !== 0 && GH_REPO.indexOf("DEIN-") !== 0 && GH_TOKEN.indexOf("DEIN-") !== 0;
+  var GH_OWNER    = "Davepunk";
+  var GH_REPO     = "First-Time-Z";
+  var WORKER_URL  = "https://first-timez.d-schleidowitz-ds.workers.dev";
+  var APP_SECRET  = "a0b89eba4c9938d2984e9547d9280b16a2ee6b0f11099bf4";
+  var GH_BRANCH   = "main";
+  var GH_PATH     = "data.json";
+  var GH_READY  = GH_OWNER.indexOf("DEIN-") !== 0 && GH_REPO.indexOf("DEIN-") !== 0 && WORKER_URL.indexOf("DEIN-") !== 0;
 
   var USERS = ["david","malik","marcel"];
   var USER_LABEL = { david:"David", malik:"Malik", marcel:"Marcel" };
@@ -944,7 +953,7 @@
 
   // ---------- GitHub-Sync (data.json im eigenen Repo) ----------
   function ghRawUrl(){ return "https://raw.githubusercontent.com/"+GH_OWNER+"/"+GH_REPO+"/"+GH_BRANCH+"/"+GH_PATH+"?t="+Date.now(); }
-  function ghApiUrl(){ return "https://api.github.com/repos/"+GH_OWNER+"/"+GH_REPO+"/contents/"+GH_PATH; }
+  function ghApiUrl(){ return WORKER_URL+"/gh/contents/"+GH_PATH; }
   function b64EncodeUnicode(str){ return btoa(unescape(encodeURIComponent(str))); }
   function b64DecodeUnicode(str){ return decodeURIComponent(escape(atob(str))); }
 
@@ -987,7 +996,7 @@
   }
   function attemptSave(mutator, attempt){
     setSyncState("saving");
-    fetch(ghApiUrl(), { headers:{ "Authorization":"token "+GH_TOKEN, "Accept":"application/vnd.github+json" }, cache:"no-store" })
+    fetch(ghApiUrl(), { headers:{ "X-App-Secret":APP_SECRET, "Accept":"application/vnd.github+json" }, cache:"no-store" })
       .then(function(r){ if(!r.ok) throw new Error("get http "+r.status); return r.json(); })
       .then(function(meta){
         var current;
@@ -1002,7 +1011,7 @@
         };
         return fetch(ghApiUrl(), {
           method:"PUT",
-          headers:{ "Authorization":"token "+GH_TOKEN, "Accept":"application/vnd.github+json", "Content-Type":"application/json" },
+          headers:{ "X-App-Secret":APP_SECRET, "Accept":"application/vnd.github+json", "Content-Type":"application/json" },
           body: JSON.stringify(body)
         });
       })
