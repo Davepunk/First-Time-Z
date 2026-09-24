@@ -130,6 +130,9 @@
   "ratings": {
     "card-example-3": {
       "david": 10
+    },
+    "card-example-2": {
+      "david": 1
     }
   },
   "notes": {},
