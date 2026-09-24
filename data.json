@@ -130,8 +130,8 @@
   "notes": {},
   "auth": {
     "david": {
-      "salt": "5bac2ad8ab3c6661",
-      "hash": "2277722989b6754c0a149d0023bec62123180117b690cf54c3aa6ccf415e9f6f"
+      "salt": "e4fa0c9694d3aa2b",
+      "hash": "ca8cbd6d9e55f4ac8af7daebb8185b7e72a7d21d2f1609529e4860e033975d6c"
     },
     "malik": {
       "salt": "575b2d62742a7642",
