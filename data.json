@@ -1,16 +1,6 @@
 {
   "items": [
     {
-      "id": "card-example-1",
-      "type": "option",
-      "custom": true,
-      "createdBy": "david",
-      "name": "Bouldern ohne Vorkenntnisse",
-      "loc": "Boulderwerk, Saarbrücken",
-      "preis": "ab 15 € Tageskarte",
-      "desc": "Einfach Sportsachen anziehen und an die Wand – ganz ohne Seil, in Absprunghöhe."
-    },
-    {
       "id": "card-example-2",
       "type": "option",
       "custom": true,
