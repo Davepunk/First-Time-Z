@@ -150,9 +150,6 @@
   /* ---------- Rad ---------- */
   .wheel-section{ align-items:center; }
   .wheel-card{ width:100%; display:flex; flex-direction:column; align-items:center; gap:18px; padding:20px 0 6px; }
-  .wheel-ready{ width:100%; display:flex; flex-direction:column; align-items:center; gap:18px; }
-  .onboard-gate{ width:100%; max-width:420px; display:flex; flex-direction:column; align-items:center; gap:12px; text-align:center; padding:26px 20px; border:2px dashed rgba(244,234,216,.3); }
-  .onboard-gate h3{ font-family:var(--display); font-weight:900; font-size:30px; line-height:1; text-transform:uppercase; }
   .week-filter{ width:100%; display:flex; flex-direction:column; gap:8px; }
   .filter-label{ font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
   .filter-label b{ color:var(--paper); font-weight:500; }
@@ -270,36 +267,27 @@
 
     <section class="section wheel-section" id="wheelSection" hidden>
       <div class="wheel-card">
-        <div class="onboard-gate" id="onboardGate" hidden>
-          <p class="result-kicker">Bevor's losgeht</p>
-          <h3>Erst alle drei bestätigen</h3>
-          <p class="confirm-hint">Damit niemand beim ersten Reinschauen aus Versehen dreht: jeder bestätigt hier einmal, dass er startklar ist. Karten und Events könnt ihr trotzdem jetzt schon anschauen und anlegen.</p>
-          <div class="spin-status" id="onboardStatus"></div>
-          <button class="btn-primary" id="onboardConfirmBtn" type="button">Ich bin bereit</button>
+        <div class="week-filter" id="weekFilter" hidden></div>
+        <div class="wheel-stage">
+          <div class="bulbs" id="bulbs"></div>
+          <div class="wheel-pointer"></div>
+          <canvas id="wheelCanvas" width="1200" height="1200"></canvas>
+          <div class="hub">Z</div>
         </div>
-        <div class="wheel-ready" id="wheelReady">
-          <div class="week-filter" id="weekFilter" hidden></div>
-          <div class="wheel-stage">
-            <div class="bulbs" id="bulbs"></div>
-            <div class="wheel-pointer"></div>
-            <canvas id="wheelCanvas" width="1200" height="1200"></canvas>
-            <div class="hub">Z</div>
-          </div>
-          <div class="spin-status" id="spinStatus"></div>
-          <button class="spin-btn" id="spinBtn" type="button">Drehen!</button>
-          <div class="result-wrap" id="resultWrap">
-            <p class="result-kicker" id="resultKicker">Das Rad hat entschieden</p>
-            <div class="ticket result-card" id="resultCard"></div>
-          </div>
-          <div class="result-confirm" id="resultConfirm" hidden>
-            <div class="spin-status" id="resultConfirmStatus"></div>
-            <button class="btn-primary" id="resultOkBtn" type="button">Ergebnis bestätigen</button>
-            <p class="confirm-hint">Neu drehen geht erst, wenn alle drei bestätigt haben.</p>
-          </div>
-          <div class="history">
-            <button type="button" class="note-toggle" id="historyToggleBtn">Bisher gezogen anzeigen</button>
-            <div class="history-list" id="historyList" hidden></div>
-          </div>
+        <div class="spin-status" id="spinStatus"></div>
+        <button class="spin-btn" id="spinBtn" type="button">Drehen!</button>
+        <div class="result-wrap" id="resultWrap">
+          <p class="result-kicker" id="resultKicker">Das Rad hat entschieden</p>
+          <div class="ticket result-card" id="resultCard"></div>
+        </div>
+        <div class="result-confirm" id="resultConfirm" hidden>
+          <div class="spin-status" id="resultConfirmStatus"></div>
+          <button class="btn-primary" id="resultOkBtn" type="button">Ergebnis bestätigen</button>
+          <p class="confirm-hint">Neu drehen geht erst, wenn alle drei bestätigt haben.</p>
+        </div>
+        <div class="history">
+          <button type="button" class="note-toggle" id="historyToggleBtn">Bisher gezogen anzeigen</button>
+          <div class="history-list" id="historyList" hidden></div>
         </div>
       </div>
     </section>
@@ -1116,30 +1104,31 @@
   }
 
   function syncDrawUI(){
-    var gateEl = document.getElementById("onboardGate");
-    var readyEl = document.getElementById("wheelReady");
-    if(!allOnboarded()){
-      gateEl.hidden = false;
-      readyEl.hidden = true;
-      var onboarded = shared.onboarded || [];
-      document.getElementById("onboardStatus").innerHTML = '<span>Bereit:</span>' + USERS.map(function(u){
-        var ok = onboarded.indexOf(u) !== -1;
-        return '<span data-user="'+u+'" class="'+(ok?"ok":"")+'">'+esc(USER_LABEL[u])+(ok?" ✓":" …")+'</span>';
-      }).join("");
-      var obtn = document.getElementById("onboardConfirmBtn");
-      var iAmReady = onboarded.indexOf(currentUser) !== -1;
-      obtn.disabled = iAmReady;
-      obtn.textContent = iAmReady ? "Bereit ✓ – warte auf die anderen" : "Ich bin bereit";
-      document.getElementById("tabWheelN").textContent = onboarded.length + "/" + USERS.length;
-      document.getElementById("tabWheelBtn").classList.remove("live");
-      return;
-    }
-    gateEl.hidden = true;
-    readyEl.hidden = false;
-
     var draw = shared.draw || defaultDraw();
     renderWeekFilter(draw.excludedWeeks || [], draw.status === "result");
     var pool = computeClientPool();
+
+    if(!allOnboarded()){
+      var onboarded = shared.onboarded || [];
+      document.getElementById("spinStatus").innerHTML = '<span>Bereit:</span>' + USERS.map(function(u){
+        var ok = onboarded.indexOf(u) !== -1;
+        return '<span data-user="'+u+'" class="'+(ok?"ok":"")+'">'+esc(USER_LABEL[u])+(ok?" ✓":" …")+'</span>';
+      }).join("");
+      var btn = document.getElementById("spinBtn");
+      var iAmReady = onboarded.indexOf(currentUser) !== -1;
+      btn.hidden = false;
+      btn.disabled = iAmReady;
+      btn.textContent = iAmReady ? "Warte auf die anderen …" : "Ich bin bereit";
+      document.getElementById("resultConfirm").hidden = true;
+      document.getElementById("resultWrap").classList.remove("show");
+      animatedResultId = null;
+      drawWheel(pool);
+      document.getElementById("tabWheelN").textContent = onboarded.length + "/" + USERS.length;
+      document.getElementById("tabWheelBtn").classList.remove("live");
+      if(!document.getElementById("historyList").hidden) renderHistory();
+      return;
+    }
+
     updateSpinStatus();
 
     var resultConfirmEl = document.getElementById("resultConfirm");
@@ -1342,10 +1331,11 @@
     document.getElementById("addEventBtn").addEventListener("click", function(){ openItemForm("event", null); });
     document.getElementById("if-cancel").addEventListener("click", closeItemForm);
     document.getElementById("itemForm").addEventListener("submit", onItemFormSubmit);
-    document.getElementById("spinBtn").addEventListener("click", spinNow);
-    document.getElementById("resultOkBtn").addEventListener("click", confirmResult);
-    document.getElementById("onboardConfirmBtn").addEventListener("click", confirmOnboard);
-    document.getElementById("historyToggleBtn").addEventListener("click", function(){
+    document.getElementById("spinBtn").addEventListener("click", function(){
+      if(!allOnboarded()){ confirmOnboard(); return; }
+      spinNow();
+    });
+    document.getElementById("resultOkBtn").addEventListener("click", confirmResult);    document.getElementById("historyToggleBtn").addEventListener("click", function(){
       var list = document.getElementById("historyList");
       var open = list.hidden;
       list.hidden = !open;
