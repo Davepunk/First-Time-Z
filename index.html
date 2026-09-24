@@ -952,7 +952,11 @@
   }
 
   // ---------- GitHub-Sync (data.json im eigenen Repo) ----------
-  function ghRawUrl(){ return "https://raw.githubusercontent.com/"+GH_OWNER+"/"+GH_REPO+"/"+GH_BRANCH+"/"+GH_PATH+"?t="+Date.now(); }
+  // Lesen laeuft bewusst NICHT ueber raw.githubusercontent.com: dieser Endpunkt
+  // haengt hinter einem Fastly-CDN-Cache (max-age=300) und liefert bis zu
+  // 5 Minuten alten Stand aus -- auch mit Cache-Buster-Query und
+  // Cache-Control: no-cache. Stattdessen genau wie beim Schreiben ueber den
+  // Cloudflare-Worker / die GitHub Contents API gehen, die live ist.
   function ghApiUrl(){ return WORKER_URL+"/gh/contents/"+GH_PATH; }
   function b64EncodeUnicode(str){ return btoa(unescape(encodeURIComponent(str))); }
   function b64DecodeUnicode(str){ return decodeURIComponent(escape(atob(str))); }
@@ -966,9 +970,12 @@
 
   function ghLoad(){
     if(!GH_READY) return Promise.reject(new Error("not configured"));
-    return fetch(ghRawUrl(), { cache:"no-store" }).then(function(r){
+    return fetch(ghApiUrl(), { headers:{ "X-App-Secret":APP_SECRET, "Accept":"application/vnd.github+json" }, cache:"no-store" }).then(function(r){
       if(!r.ok) throw new Error("http "+r.status);
       return r.json();
+    }).then(function(meta){
+      try{ return JSON.parse(b64DecodeUnicode(meta.content.replace(/\n/g,""))); }
+      catch(e){ return defaultData(); }
     });
   }
 
