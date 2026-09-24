@@ -114,6 +114,17 @@
       "loc": "Karlsberg Brauerei, Homburg",
       "preis": "",
       "desc": "Blick hinter die Kulissen, zum Schluss eine Kostprobe."
+    },
+    {
+      "id": "event-1790280947534",
+      "type": "event",
+      "custom": true,
+      "createdBy": "david",
+      "name": "ghnx",
+      "loc": "fghsn",
+      "preis": "dfsgn",
+      "desc": "sdfgn",
+      "date": ""
     }
   ],
   "ratings": {},
