@@ -1,16 +1,6 @@
 {
   "items": [
     {
-      "id": "card-example-2",
-      "type": "option",
-      "custom": true,
-      "createdBy": "david",
-      "name": "Töpferkurs im Römischen Landgut",
-      "loc": "Archäologiepark Villa Borg, Perl-Borg",
-      "preis": "49 € zzgl. Eintritt",
-      "desc": "Zwei Stunden an der Drehscheibe mit einer Meisterkeramikerin, mitten im römischen Gutshof."
-    },
-    {
       "id": "card-example-3",
       "type": "option",
       "custom": true,
