@@ -102,7 +102,9 @@
       "david": 4
     }
   },
-  "notes": {},
+  "notes": {
+    "card-example-3": "schon etwas her"
+  },
   "auth": {
     "david": {
       "salt": "f0c98ea767541d19",
