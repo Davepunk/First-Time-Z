@@ -92,5 +92,8 @@
     "resultItemId": "event-example-2",
     "drawnBy": "david"
   },
-  "history": []
+  "history": [],
+  "onboarded": [
+    "david"
+  ]
 }
