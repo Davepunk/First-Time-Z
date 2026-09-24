@@ -126,14 +126,15 @@
       "desc": "Blick hinter die Kulissen, zum Schluss eine Kostprobe."
     },
     {
-      "id": "card-1790280227141",
-      "type": "option",
+      "id": "event-1790280267178",
+      "type": "event",
       "custom": true,
       "createdBy": "david",
-      "name": "atgfasfrg",
-      "loc": "afhgadf",
-      "preis": "ghafhg",
-      "desc": "ahgfa"
+      "name": "adg",
+      "loc": "gafg",
+      "preis": "dsfah",
+      "desc": "aftg",
+      "date": "2026-09-17"
     }
   ],
   "ratings": {},
