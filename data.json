@@ -147,11 +147,11 @@
     "card-example-2": "2026-09-24T19:59:41.126Z"
   },
   "draw": {
-    "status": "idle",
+    "status": "result",
     "excludedWeeks": [],
     "confirmedResult": [],
-    "resultItemId": null,
-    "drawnBy": null
+    "resultItemId": "event-example-2",
+    "drawnBy": "david"
   },
   "history": []
 }
