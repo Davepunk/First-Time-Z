@@ -72,17 +72,6 @@
       "desc": "Ab 18 Jahren, Ausweis mitbringen."
     },
     {
-      "id": "event-example-3",
-      "type": "event",
-      "custom": true,
-      "createdBy": "david",
-      "name": "Offenes Schachturnier",
-      "date": "2026-10-03",
-      "loc": "Völklingen",
-      "preis": "",
-      "desc": "Jeder darf mitspielen, auch Einsteiger."
-    },
-    {
       "id": "event-example-4",
       "type": "event",
       "custom": true,
