@@ -178,12 +178,20 @@
   .spin-status [data-user="david"].ok{ color:var(--david); } .spin-status [data-user="malik"].ok{ color:var(--malik); } .spin-status [data-user="marcel"].ok{ color:var(--marcel); }
   .spin-btn{
     width:min(320px, 100%); font-family:var(--display); font-weight:900; font-size:34px; letter-spacing:.04em; text-transform:uppercase;
-    color:var(--paper); background:var(--red); border:none; border-radius:4px; padding:14px 22px 12px; cursor:pointer;
-    box-shadow:0 7px 0 var(--red-deep); transition:transform .08s ease, box-shadow .08s ease;
+    color:var(--sctxt, var(--paper)); background:var(--sc, var(--red)); border:none; border-radius:4px; padding:14px 22px 12px; cursor:pointer;
+    box-shadow:0 7px 0 color-mix(in oklab, var(--sc, var(--red)) 72%, black); transition:transform .08s ease, box-shadow .08s ease;
   }
-  .spin-btn:active{ transform:translateY(5px); box-shadow:0 2px 0 var(--red-deep); }
+  .spin-btn:active{ transform:translateY(5px); box-shadow:0 2px 0 color-mix(in oklab, var(--sc, var(--red)) 72%, black); }
   .spin-btn:focus-visible{ outline:2px solid var(--paper); outline-offset:4px; }
-  .spin-btn:disabled{ opacity:.45; cursor:default; transform:none; box-shadow:0 7px 0 var(--red-deep); }
+  .spin-btn:disabled{ opacity:.45; cursor:default; transform:none; box-shadow:0 7px 0 color-mix(in oklab, var(--sc, var(--red)) 72%, black); }
+  /* Farben muessen zu WHEEL.colors/WHEEL.text im Script passen */
+  @keyframes spinFlash{
+    0%,100%{ background:#e4502f; color:#f4ead8; }
+    25%{ background:#f4ead8; color:#15110d; }
+    50%{ background:#f2b23a; color:#15110d; }
+    75%{ background:#2c241d; color:#f4ead8; }
+  }
+  .spin-btn.flash-colors{ animation:spinFlash .4s steps(1) infinite; }
 
   .result-wrap{ width:100%; display:none; flex-direction:column; gap:8px; }
   .result-wrap.show{ display:flex; }
@@ -233,7 +241,7 @@
 
   @media (min-width:760px){ .wrap{ max-width:920px; } }
   @media (max-width:420px){ .wheel-stage{ padding:12px; } .wheel-section{ margin:0 -6px; } }
-  @media (prefers-reduced-motion: reduce){ .spin-btn, #wheelCanvas{ transition:none; } .bulbs span, .tab-btn.live::after{ animation:none; } }
+  @media (prefers-reduced-motion: reduce){ .spin-btn, #wheelCanvas{ transition:none; } .spin-btn.flash-colors, .bulbs span, .tab-btn.live::after{ animation:none; } }
 </style>
 </head>
 <body>
@@ -573,7 +581,7 @@
     var top = document.createElement("div");
     top.className = "ticket-top";
 
-    var isEditable = !!item.custom && (currentUser === "david" || currentUser === creator);
+    var isEditable = !!item.custom && (currentUser === "david" || currentUser === creator) && !sharedTried[item.id];
     var adminHtml = isEditable
       ? '<div class="ticket-toprow"><span class="admin-actions"><button type="button" class="it-edit">ändern</button><button type="button" class="it-del">löschen</button></span></div>'
       : "";
@@ -647,17 +655,23 @@
         if(open) ta.focus();
       });
     }
+    function saveNoteNow(){
+      clearTimeout(noteSaveTimers[item.id]);
+      var val = ta.value;
+      shared.notes[item.id] = val;
+      queueSave(function(data){
+        data.notes = data.notes || {};
+        if(val) data.notes[item.id] = val; else delete data.notes[item.id];
+      });
+    }
     ta.addEventListener("input", function(){
       clearTimeout(noteSaveTimers[item.id]);
-      noteSaveTimers[item.id] = setTimeout(function(){
-        var val = ta.value;
-        shared.notes[item.id] = val;
-        queueSave(function(data){
-          data.notes = data.notes || {};
-          if(val) data.notes[item.id] = val; else delete data.notes[item.id];
-        });
-      }, 700);
+      noteSaveTimers[item.id] = setTimeout(saveNoteNow, 700);
     });
+    // Sofort sichern, wenn das Feld den Fokus verliert (z. B. weil direkt
+    // danach "erledigt" angeklickt wird) -- sonst koennte die 700ms-Verzoegerung
+    // eine gerade getippte Notiz verschlucken, wenn parallel neu gerendert wird.
+    ta.addEventListener("blur", saveNoteNow);
 
     el.appendChild(bottom);
 
@@ -955,7 +969,14 @@
   }
 
   // ---------- Rad ----------
-  var wheelCanvas, wheelCtx, wheelPool = [], wheelRotation = 0, pendingRevealItem = null, animatedResultId = null, revealTimer = null;
+  var wheelCanvas, wheelCtx, wheelPool = [], wheelRotation = 0, pendingRevealItem = null, animatedResultId = null, revealTimer = null, spinAnimating = false;
+
+  function setSpinBtnColor(){
+    var i = Math.floor(Math.random()*WHEEL.colors.length);
+    var btn = document.getElementById("spinBtn");
+    btn.style.setProperty("--sc", WHEEL.colors[i]);
+    btn.style.setProperty("--sctxt", WHEEL.text[i]);
+  }
 
   function buildBulbs(){
     var wrap = document.getElementById("bulbs");
@@ -1037,6 +1058,10 @@
   }
   function revealPending(){
     clearTimeout(revealTimer);
+    spinAnimating = false;
+    var btn = document.getElementById("spinBtn");
+    btn.classList.remove("flash-colors");
+    btn.hidden = true;
     if(pendingRevealItem){ renderResult(pendingRevealItem); pendingRevealItem = null; }
   }
 
@@ -1056,6 +1081,12 @@
     if(reduceMotion){ renderResult(item); return; }
     document.getElementById("resultWrap").classList.remove("show");
     pendingRevealItem = item;
+    spinAnimating = true;
+    var btn = document.getElementById("spinBtn");
+    btn.hidden = false;
+    btn.disabled = true;
+    btn.textContent = "Dreht …";
+    btn.classList.add("flash-colors");
     spinToItem(item);
   }
 
@@ -1094,11 +1125,17 @@
     var draw = shared.draw || defaultDraw();
     var pool = computeClientPool();
     var el = document.getElementById("spinStatus");
-    if(draw.status === "result"){ el.textContent = ""; }
-    else{ el.textContent = pool.length ? (pool.length + (pool.length===1 ? " Idee im Rad" : " Ideen im Rad")) : "Das Rad ist leer. Neue Ideen eintragen oder Wochen wieder freigeben."; }
     var btn = document.getElementById("spinBtn");
-    btn.hidden = draw.status === "result";
-    btn.disabled = pool.length === 0;
+    if(draw.status === "result"){
+      el.textContent = "";
+      if(!spinAnimating) btn.hidden = true;
+    }else{
+      el.textContent = pool.length ? (pool.length + (pool.length===1 ? " Idee im Rad" : " Ideen im Rad")) : "Das Rad ist leer. Neue Ideen eintragen oder Wochen wieder freigeben.";
+      btn.hidden = false;
+      btn.disabled = pool.length === 0;
+      btn.textContent = "Drehen!";
+      btn.classList.remove("flash-colors");
+    }
     document.getElementById("tabWheelN").textContent = draw.status === "result" ? "läuft" : pool.length;
     document.getElementById("tabWheelBtn").classList.toggle("live", draw.status === "result");
   }
@@ -1118,6 +1155,7 @@
       var iAmReady = onboarded.indexOf(currentUser) !== -1;
       btn.hidden = false;
       btn.disabled = iAmReady;
+      btn.classList.remove("flash-colors");
       btn.textContent = iAmReady ? "Warte auf die anderen …" : "Ich bin bereit";
       document.getElementById("resultConfirm").hidden = true;
       document.getElementById("resultWrap").classList.remove("show");
@@ -1332,6 +1370,7 @@
     document.getElementById("if-cancel").addEventListener("click", closeItemForm);
     document.getElementById("itemForm").addEventListener("submit", onItemFormSubmit);
     document.getElementById("spinBtn").addEventListener("click", function(){
+      setSpinBtnColor();
       if(!allOnboarded()){ confirmOnboard(); return; }
       spinNow();
     });
