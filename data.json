@@ -41,17 +41,6 @@
       "desc": "Gemütlich die Saar runterpaddeln, Verleih und Rückholservice inklusive."
     },
     {
-      "id": "event-example-2",
-      "type": "event",
-      "custom": true,
-      "createdBy": "david",
-      "name": "Pokerturnier in der Spielbank",
-      "date": "2026-09-29",
-      "loc": "Spielbank Saarbrücken",
-      "preis": "Buy-in ab ca. 40 €",
-      "desc": "Ab 18 Jahren, Ausweis mitbringen."
-    },
-    {
       "id": "event-example-5",
       "type": "event",
       "custom": true,
