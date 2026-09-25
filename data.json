@@ -50,6 +50,16 @@
       "preis": "dfsgn",
       "desc": "sdfgn",
       "date": "2026-09-25"
+    },
+    {
+      "id": "card-1790314758283",
+      "type": "option",
+      "custom": true,
+      "createdBy": "malik",
+      "name": "Graffiti Workshop",
+      "loc": "SB",
+      "preis": "49€",
+      "desc": "https://triviar.de/course/10304"
     }
   ],
   "ratings": {
