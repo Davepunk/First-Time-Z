@@ -172,7 +172,8 @@
     "status": "result",
     "excludedWeeks": [],
     "confirmedResult": [
-      "david"
+      "david",
+      "marcel"
     ],
     "resultItemId": "event-example-2",
     "drawnBy": "david"
