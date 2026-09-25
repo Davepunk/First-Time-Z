@@ -60,6 +60,16 @@
       "loc": "SB",
       "preis": "49€",
       "desc": "https://triviar.de/course/10304"
+    },
+    {
+      "id": "card-1790314937155",
+      "type": "option",
+      "custom": true,
+      "createdBy": "malik",
+      "name": "Schmuck selber Machen",
+      "loc": "SB",
+      "preis": "39",
+      "desc": "https://triviar.de/course/10309"
     }
   ],
   "ratings": {
