@@ -145,6 +145,16 @@
       "loc": "saarland",
       "preis": "29€",
       "desc": "https://triviar.de/course/10063?cl=Saarland"
+    },
+    {
+      "id": "card-1790344134215",
+      "type": "option",
+      "custom": true,
+      "createdBy": "david",
+      "name": "Fotokurs Saarland - Fotografieren lernen",
+      "loc": "saarland",
+      "preis": "49€",
+      "desc": "damit marcel die kamerführung lernt\nhttps://triviar.de/course/10392?cl=Saarland"
     }
   ],
   "ratings": {
