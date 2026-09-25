@@ -113,6 +113,17 @@
       "preis": "gratis",
       "desc": "18:00\nhttps://www.battle-bear-sb.de/products/yu-gi-oh-demo-event-25-09-2026",
       "date": "2026-09-25"
+    },
+    {
+      "id": "event-1790342818703",
+      "type": "event",
+      "custom": true,
+      "createdBy": "david",
+      "name": "kochkurs",
+      "loc": "sb",
+      "preis": "124€",
+      "desc": "teuer\nhttps://saarbruecken-erleben.de/lillis-kochwerkstatt?utm_source=chatgpt.com",
+      "date": "2026-10-11"
     }
   ],
   "ratings": {
