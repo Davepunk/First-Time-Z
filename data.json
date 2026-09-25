@@ -169,15 +169,15 @@
     "card-example-3": "2026-09-24T20:15:21.721Z"
   },
   "draw": {
-    "status": "idle",
+    "status": "result",
     "excludedWeeks": [
       "2026-41",
       "2026-50",
       "2026-42"
     ],
     "confirmedResult": [],
-    "resultItemId": null,
-    "drawnBy": null
+    "resultItemId": "card-example-7",
+    "drawnBy": "malik"
   },
   "history": [
     {
