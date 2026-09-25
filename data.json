@@ -80,6 +80,17 @@
       "loc": "SB",
       "preis": "39€",
       "desc": "https://triviar.de/course/10311"
+    },
+    {
+      "id": "event-1790340997486",
+      "type": "event",
+      "custom": true,
+      "createdBy": "david",
+      "name": "Saarcon",
+      "loc": "Sb",
+      "preis": "idk",
+      "desc": "https://saarcon-labs.info/",
+      "date": "2026-10-17"
     }
   ],
   "ratings": {
