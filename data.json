@@ -70,6 +70,16 @@
       "loc": "SB",
       "preis": "39",
       "desc": "https://triviar.de/course/10309"
+    },
+    {
+      "id": "card-1790315045553",
+      "type": "option",
+      "custom": true,
+      "createdBy": "malik",
+      "name": "Cocktail Kurs",
+      "loc": "SB",
+      "preis": "39€",
+      "desc": "https://triviar.de/course/10311"
     }
   ],
   "ratings": {
