@@ -102,6 +102,17 @@
       "preis": "gratis",
       "desc": "https://www.next-heroes.de/weihnerdsmarkt/",
       "date": "2026-12-13"
+    },
+    {
+      "id": "event-1790341277831",
+      "type": "event",
+      "custom": true,
+      "createdBy": "david",
+      "name": "Volleyball im Schwarzlicht",
+      "loc": "sb",
+      "preis": "60€ pro mannschaft",
+      "desc": "https://www.atsvvolleyball.de/\nNachteil:\nwir brauchen eine mannschaft, bei der minimum immer 2 frauen aufm feld sind",
+      "date": "2026-10-17"
     }
   ],
   "ratings": {
