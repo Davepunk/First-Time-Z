@@ -135,6 +135,16 @@
       "preis": "12€ für we",
       "desc": "07.+08.\nhttps://www.retrosaar.de/",
       "date": "2026-11-07"
+    },
+    {
+      "id": "card-1790343909257",
+      "type": "option",
+      "custom": true,
+      "createdBy": "david",
+      "name": "Drink & Paint Malkurs",
+      "loc": "saarland",
+      "preis": "29€",
+      "desc": "https://triviar.de/course/10063?cl=Saarland"
     }
   ],
   "ratings": {
