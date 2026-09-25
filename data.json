@@ -172,7 +172,8 @@
     "status": "idle",
     "excludedWeeks": [
       "2026-41",
-      "2026-50"
+      "2026-50",
+      "2026-42"
     ],
     "confirmedResult": [],
     "resultItemId": null,
