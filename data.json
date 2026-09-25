@@ -11,16 +11,6 @@
       "desc": "60 Minuten, verschiedene Räume, Rätsel unter Zeitdruck lösen."
     },
     {
-      "id": "card-example-4",
-      "type": "option",
-      "custom": true,
-      "createdBy": "david",
-      "name": "Axtwerfen wie ein Wikinger",
-      "loc": "Kartpalast, Saarbrücken",
-      "preis": "auf Anfrage",
-      "desc": "Äxte ins massive Holz werfen, Kneipenfeeling inklusive."
-    },
-    {
       "id": "card-example-6",
       "type": "option",
       "custom": true,
