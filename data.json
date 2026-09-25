@@ -171,7 +171,8 @@
   "draw": {
     "status": "idle",
     "excludedWeeks": [
-      "2026-41"
+      "2026-41",
+      "2026-50"
     ],
     "confirmedResult": [],
     "resultItemId": null,
