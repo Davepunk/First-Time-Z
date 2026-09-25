@@ -91,6 +91,17 @@
       "preis": "idk",
       "desc": "https://saarcon-labs.info/",
       "date": "2026-10-17"
+    },
+    {
+      "id": "event-1790341077073",
+      "type": "event",
+      "custom": true,
+      "createdBy": "david",
+      "name": "WeihNERDsMarkt",
+      "loc": "völklingen(nähe sb)",
+      "preis": "gratis",
+      "desc": "https://www.next-heroes.de/weihnerdsmarkt/",
+      "date": "2026-12-13"
     }
   ],
   "ratings": {
