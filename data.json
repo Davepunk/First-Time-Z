@@ -113,6 +113,17 @@
       "preis": "60€ pro mannschaft",
       "desc": "https://www.atsvvolleyball.de/\nNachteil:\nwir brauchen eine mannschaft, bei der minimum immer 2 frauen aufm feld sind",
       "date": "2026-10-17"
+    },
+    {
+      "id": "event-1790342603700",
+      "type": "event",
+      "custom": true,
+      "createdBy": "david",
+      "name": "Yu-Gi-Oh! Demo Abend",
+      "loc": "sb",
+      "preis": "gratis",
+      "desc": "18:00\nhttps://www.battle-bear-sb.de/products/yu-gi-oh-demo-event-25-09-2026",
+      "date": "2026-09-25"
     }
   ],
   "ratings": {
