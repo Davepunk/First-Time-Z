@@ -124,6 +124,17 @@
       "preis": "124€",
       "desc": "teuer\nhttps://saarbruecken-erleben.de/lillis-kochwerkstatt",
       "date": "2026-10-11"
+    },
+    {
+      "id": "event-1790342921607",
+      "type": "event",
+      "custom": true,
+      "createdBy": "david",
+      "name": "RetroCon",
+      "loc": "völklingen",
+      "preis": "12€ für we",
+      "desc": "07.+08.\nhttps://www.retrosaar.de/",
+      "date": "2026-11-07"
     }
   ],
   "ratings": {
