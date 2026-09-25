@@ -170,7 +170,9 @@
   },
   "draw": {
     "status": "idle",
-    "excludedWeeks": [],
+    "excludedWeeks": [
+      "2026-41"
+    ],
     "confirmedResult": [],
     "resultItemId": null,
     "drawnBy": null
