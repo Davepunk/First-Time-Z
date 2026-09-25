@@ -169,16 +169,21 @@
     "card-example-3": "2026-09-24T20:15:21.721Z"
   },
   "draw": {
-    "status": "result",
+    "status": "idle",
     "excludedWeeks": [],
-    "confirmedResult": [
-      "david",
-      "marcel"
-    ],
-    "resultItemId": "event-example-2",
-    "drawnBy": "david"
+    "confirmedResult": [],
+    "resultItemId": null,
+    "drawnBy": null
   },
-  "history": [],
+  "history": [
+    {
+      "itemId": "event-example-2",
+      "name": "(gelöscht)",
+      "type": null,
+      "drawnBy": "david",
+      "confirmedAt": "2026-09-25T19:38:12.762Z"
+    }
+  ],
   "onboarded": [
     "malik",
     "david",
