@@ -134,6 +134,16 @@
       "loc": "Saarwellingen",
       "preis": "Zu Teuer",
       "desc": "#YOLO #2013"
+    },
+    {
+      "id": "card-1790528569643",
+      "type": "option",
+      "custom": true,
+      "createdBy": "malik",
+      "name": "Minigolf",
+      "loc": "SB D/F Garten",
+      "preis": "3,50€",
+      "desc": ""
     }
   ],
   "ratings": {
