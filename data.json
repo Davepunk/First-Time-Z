@@ -177,20 +177,24 @@
     "card-1790527941585": "2026-09-27T16:52:30.166Z"
   },
   "draw": {
-    "status": "result",
+    "status": "idle",
     "excludedWeeks": [
       "2026-41",
       "2026-50",
       "2026-42"
     ],
-    "confirmedResult": [
-      "marcel",
-      "david"
-    ],
-    "resultItemId": "card-example-7",
-    "drawnBy": "malik"
+    "confirmedResult": [],
+    "resultItemId": null,
+    "drawnBy": null
   },
   "history": [
+    {
+      "itemId": "card-example-7",
+      "name": "Pilatis mit Natasha",
+      "type": "option",
+      "drawnBy": "malik",
+      "confirmedAt": "2026-09-27T16:59:35.347Z"
+    },
     {
       "itemId": "event-example-2",
       "name": "(gelöscht)",
