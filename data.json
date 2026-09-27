@@ -134,6 +134,16 @@
       "loc": "saarland",
       "preis": "49€",
       "desc": "damit marcel die kamerführung lernt\nhttps://triviar.de/course/10392?cl=Saarland"
+    },
+    {
+      "id": "card-1790527941585",
+      "type": "option",
+      "custom": true,
+      "createdBy": "malik",
+      "name": "Shisha Bar",
+      "loc": "Saarwellingen",
+      "preis": "Zu Teuer",
+      "desc": "#YOLO #2013"
     }
   ],
   "ratings": {
