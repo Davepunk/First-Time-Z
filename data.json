@@ -183,7 +183,9 @@
       "2026-50",
       "2026-42"
     ],
-    "confirmedResult": [],
+    "confirmedResult": [
+      "marcel"
+    ],
     "resultItemId": "card-example-7",
     "drawnBy": "malik"
   },
