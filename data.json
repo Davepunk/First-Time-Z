@@ -177,15 +177,15 @@
     "card-1790527941585": "2026-09-27T16:52:30.166Z"
   },
   "draw": {
-    "status": "idle",
+    "status": "result",
     "excludedWeeks": [
       "2026-41",
       "2026-50",
       "2026-42"
     ],
     "confirmedResult": [],
-    "resultItemId": null,
-    "drawnBy": null
+    "resultItemId": "card-1790314758283",
+    "drawnBy": "malik"
   },
   "history": [
     {
